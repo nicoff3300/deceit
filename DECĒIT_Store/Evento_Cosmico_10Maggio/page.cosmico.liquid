@@ -1,0 +1,737 @@
+<!-- /templates/page.cosmico.liquid -->
+<!-- Landing page: DECĒIT × COSMICO — Iscriviti e Ricevi -->
+<!-- Caricare su Shopify: Online Store → Themes → Edit code → Add new template → page → cosmico -->
+
+{%- layout none -%}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DECĒIT × COSMICO — Iscriviti e Ricevi</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  {{ content_for_header }}
+
+  <!-- Font ABC Favorit (caricato su Shopify CDN) -->
+  <style>
+    @font-face {
+      font-family: 'ABCFavorit';
+      src: url('https://cdn.shopify.com/s/files/1/0729/7876/0007/files/ABCFavorit-Bold-Trial_1777288450501.woff2?v=1777288456') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'ABCFavorit';
+      src: url('https://cdn.shopify.com/s/files/1/0729/7876/0007/files/ABCFavorit-Medium-Trial.woff2?v=1777288404') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow: #FCF40F;
+      --black: #0A0A0A;
+      --blue: #0000FF;
+      --dark-red: #9B2724;
+      --white: #FFFFFF;
+      --gray: #E8E8E8;
+      --gray-mid: #666;
+      --gray-light: #999;
+      --radius: 0px;
+      --font: 'ABCFavorit', Helvetica, Arial, sans-serif;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: var(--font);
+      background: var(--yellow);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem 1.25rem 6rem;
+      line-height: 1.4;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      text-align: center;
+      width: 100%;
+    }
+
+    .header__logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .header__logo img {
+      width: 280px;
+      height: auto;
+      filter: brightness(0);
+    }
+
+    .header__collab-x {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--black);
+      opacity: 0.5;
+    }
+
+    .header__collab-name {
+      font-family: var(--font);
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    .header__tagline {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: var(--black);
+      line-height: 1.5;
+      opacity: 0.8;
+    }
+
+    .header__tagline strong {
+      color: var(--black);
+      font-weight: 700;
+      opacity: 1;
+    }
+
+    /* ===== FORM ===== */
+    .form, .newsletter-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .newsletter-form {
+      margin: 0;
+      padding: 0;
+    }
+
+    .field {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+
+    .field label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--black);
+      opacity: 0.7;
+    }
+
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"] {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      background: var(--white);
+      color: var(--black);
+      border: 2px solid transparent;
+      border-radius: var(--radius);
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .field input:focus {
+      border-color: var(--blue);
+    }
+
+    .field input::placeholder {
+      color: #aaa;
+      font-weight: 500;
+    }
+
+    .field--optional label::after {
+      content: ' (opzionale)';
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0;
+      opacity: 0.6;
+    }
+
+    /* ===== GDPR CHECKBOX ===== */
+    .consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-top: 0.25rem;
+      cursor: pointer;
+    }
+
+    .consent input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      min-width: 1.25rem;
+      border: 2px solid var(--black);
+      border-radius: var(--radius);
+      background: var(--white);
+      cursor: pointer;
+      position: relative;
+      margin-top: 0.1rem;
+      transition: all 0.15s ease;
+    }
+
+    .consent input[type="checkbox"]:checked {
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .consent input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .consent input[type="checkbox"]:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    .consent__text {
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: var(--black);
+      opacity: 0.7;
+    }
+
+    .consent__text a {
+      color: var(--black);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      opacity: 1;
+      font-weight: 500;
+      transition: opacity 0.15s ease;
+    }
+
+    .consent__text a:hover {
+      opacity: 0.6;
+    }
+
+    /* ===== SUBMIT BUTTON ===== */
+    .submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--black);
+      color: var(--yellow);
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 0.5rem;
+    }
+
+    .submit:hover {
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .submit:active {
+      transform: scale(0.98);
+    }
+
+    .submit:disabled {
+      background: #ccc;
+      color: #999;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center;
+      width: 100%;
+      padding: 1rem 0;
+      border-top: 2px solid var(--black);
+    }
+
+    @media (min-width: 768px) {
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--yellow);
+        z-index: 10;
+      }
+    }
+
+    .footer__brand {
+      font-size: 0.875rem;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .footer__info {
+      font-size: 0.6875rem;
+      color: var(--black);
+      font-weight: 500;
+    }
+
+    .footer__info a {
+      color: var(--black);
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .footer__info a:hover {
+      opacity: 0.5;
+    }
+
+    @media (max-width: 767px) {
+      .footer__brand {
+        font-size: 0.75rem;
+      }
+    }
+
+    /* ===== CONFIRMATION SCREEN ===== */
+    .confirmation {
+      display: none;
+      width: 100%;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .confirmation__text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .confirmation.active {
+      display: flex;
+    }
+
+    .confirmation__title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--black);
+      line-height: 1.3;
+    }
+
+    .confirmation__title span {
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    .confirmation__body {
+      font-size: 1rem;
+      color: var(--black);
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    .confirmation__wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      background: var(--black);
+      color: var(--yellow);
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: background 0.2s ease;
+    }
+
+    .confirmation__wa:hover {
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .confirmation__notice {
+      font-size: 0.8125rem;
+      color: var(--black);
+      opacity: 0.65;
+      line-height: 1.5;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.04);
+      width: 100%;
+    }
+
+    .confirmation__tee {
+      position: relative;
+      margin-top: 0.5rem;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .confirmation__tee svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .confirmation__tee svg path {
+      stroke: var(--black) !important;
+      stroke-dasharray: none !important;
+      stroke-width: 2.5px !important;
+      fill: none !important;
+    }
+
+    .confirmation__tee-text {
+      position: absolute;
+      top: 38%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      text-align: center;
+      font-size: 0.875rem;
+      color: var(--black);
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    .confirmation__tee-text strong {
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 1rem;
+    }
+
+    /* ===== ERROR STATES ===== */
+    .field-error input {
+      border-color: var(--dark-red) !important;
+    }
+
+    .error-msg {
+      font-size: 0.6875rem;
+      color: var(--dark-red);
+      margin-top: 0.25rem;
+      display: none;
+      font-weight: 500;
+    }
+
+    .field-error .error-msg {
+      display: block;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== LOADING SPINNER ===== */
+    .spinner {
+      display: none;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 2px solid var(--yellow);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto;
+    }
+
+    .submit.loading .spinner { display: inline-block; }
+    .submit.loading .submit__text { display: none; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================ -->
+  <!-- FORM SCREEN                                  -->
+  <!-- ============================================ -->
+  <div class="container" id="formScreen">
+
+    <div class="header">
+      <div class="header__logo">
+        <img src="https://cdn.shopify.com/s/files/1/0729/7876/0007/files/Logo_deceit_store.svg?v=1768909615" alt="DECĒIT" class="header__logo-img">
+
+      </div>
+      <p class="header__tagline">
+        Ti ringraziamo per aver partecipato all'evento.<br>
+        Lasciaci i tuoi dati per <strong>sapere quando la tua t-shirt sarà disponibile per il ritiro</strong>.
+      </p>
+    </div>
+
+    {% form 'customer' %}
+      <input type="hidden" name="contact[tags]" value="evento-cosmico,newsletter">
+
+      <!-- NOME -->
+      <div class="field" id="fieldName">
+        <label for="name">Nome / Nickname *</label>
+        <input type="text" id="name" name="contact[name]" placeholder="Come ti chiami?" autocomplete="given-name" required>
+        <span class="error-msg">Inserisci il tuo nome</span>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="field" id="fieldEmail">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="contact[email]" placeholder="La tua email" autocomplete="email" required>
+        <span class="error-msg">Inserisci un'email valida</span>
+      </div>
+
+      <!-- TELEFONO -->
+      <div class="field field--optional" id="fieldPhone">
+        <label for="phone">Telefono</label>
+        <input type="tel" id="phone" name="contact[phone]" placeholder="Il tuo numero di telefono" autocomplete="tel">
+      </div>
+
+      <!-- GDPR CONSENT -->
+      <label class="consent" id="fieldConsent">
+        <input type="checkbox" id="gdprConsent" required>
+        <span class="consent__text">
+          Autorizzo DECĒIT al trattamento dei miei dati personali per finalità di marketing e promozione, secondo il D.Lgs. 196/2003 e il Regolamento UE 2016/679 (GDPR).
+          <a href="https://deceitdeceit.com/policies/privacy-policy" target="_blank" rel="noopener">Informativa completa</a>
+        </span>
+      </label>
+      <span class="error-msg" id="consentError" style="margin-left: 2rem;">Devi accettare il trattamento dei dati</span>
+
+      <!-- HONEYPOT (anti-spam Mailchimp, deve restare vuoto) -->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true">
+        <input type="text" name="b_cf64b003a19979e390b9855e1_e332a30c5d" tabindex="-1" autocomplete="off">
+      </div>
+
+      <!-- SUBMIT -->
+      <button type="submit" class="submit" id="submitBtn">
+        <span class="submit__text">ISCRIVITI</span>
+        <div class="spinner"></div>
+      </button>
+    {% endform %}
+
+    <div class="footer">
+      <div class="footer__brand">Decēit — dailywear for people who struggle with the truth.</div>
+      <div class="footer__info"><a href="https://www.deceitdeceit.com" target="_blank">deceitdeceit.com</a> – <a href="https://instagram.com/deceit.store" target="_blank">IG</a>/<a href="https://tiktok.com/@deceit.store" target="_blank">TikTok</a> @deceit.store – via Abbrescia 42, Bari</div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- CONFIRMATION SCREEN                          -->
+  <!-- ============================================ -->
+  <div class="container" id="confirmScreen">
+    <div class="confirmation">
+      <img src="https://cdn.shopify.com/s/files/1/0729/7876/0007/files/Logo_deceit_store.svg?v=1768909615" alt="DECĒIT" style="width: 280px; height: auto; filter: brightness(0);">
+
+      <div class="confirmation__text-group">
+        <div class="confirmation__title">
+          Grazie per esserti <span>registrato</span>.
+        </div>
+        <div class="confirmation__body">
+          Ti terremo aggiornato su eventi, collezioni e novità esclusive.
+        </div>
+        <div class="confirmation__notice">
+          Controlla la tua casella email e conferma la registrazione.<br>
+          Non l'hai ricevuta? Controlla anche nello spam.
+        </div>
+      </div>
+
+      <a href="https://whatsapp.com/channel/0029Vb8CpNzJJhzTGCIejI2j" target="_blank" rel="noopener" class="confirmation__wa">
+        Unisciti al canale WhatsApp
+      </a>
+
+      <div class="confirmation__tee">
+        <svg viewBox="0 0 1394.55 1080" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1379.09,496.66c-6.68-9.85-13.44-19.76-20.28-29.68l.21-.23-.24.17c-101.16-146.81-217.57-297.52-279.31-336.13l-231.87-83.28-29.72-26.88-11.27,4.5c-27.71,11.07-74.36,18.23-109.61,18.23s-81.9-7.15-109.6-18.23l-11.27-4.5-25.3,23.29h-.23s.08.04.14.08l-3.81,3.51-231.87,83.28c-61.73,38.61-178.15,189.32-279.31,336.13l-.24-.17.21.23c-6.84,9.92-13.6,19.83-20.28,29.68,56.45,52.08,176.36,134.17,240.75,170.02l15.96-22.37,1.05.58-.97-.69,4.37-6.13.56.31-.52-.37,10.04-14.07-.99,394.21h-3.41,3.41l-.02,8.17h-2.74,2.74l-.08,33.28h823.36l-.08-33.29h2.62-2.62l-.02-8.18h3.26-3.26l-.96-394.15,10,14.02-.52.37.56-.31,4.37,6.13-.97.69,1.05.58,15.96,22.37c64.39-35.84,184.3-117.94,240.75-170.02Z" />
+        </svg>
+        <div class="confirmation__tee-text">
+          La tua Tee Cosmico sarà disponibile al DECĒIT Store presto.<br> Ti avviseremo quando ritirarla.
+        </div>
+      </div>
+
+      <div class="footer">
+      <div class="footer__brand">Decēit — dailywear for people who struggle with the truth.</div>
+      <div class="footer__info"><a href="https://www.deceitdeceit.com" target="_blank">deceitdeceit.com</a> – <a href="https://instagram.com/deceit.store" target="_blank">IG</a>/<a href="https://tiktok.com/@deceit.store" target="_blank">TikTok</a> @deceit.store – via Abbrescia 42, Bari</div>
+    </div>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+
+      // ===== SE L'UTENTE HA GIÀ INVIATO, MOSTRA CONFERMA =====
+      if (window.location.search.indexOf('customer_posted=true') !== -1) {
+        document.getElementById('formScreen').style.display = 'none';
+        document.getElementById('confirmScreen').style.display = 'flex';
+        document.getElementById('confirmScreen').style.minHeight = '100vh';
+        document.getElementById('confirmScreen').querySelector('.confirmation').classList.add('active');
+        // Redirect dopo 10 secondi
+        setTimeout(function() {
+          window.location.href = 'https://www.deceitdeceit.com';
+        }, 10000);
+        return;
+      }
+
+      var form = document.querySelector('#formScreen .newsletter-form') || document.querySelector('#formScreen form');
+      var submitBtn = document.getElementById('submitBtn');
+      var formScreen = document.getElementById('formScreen');
+      var confirmScreen = document.getElementById('confirmScreen');
+
+      // ===== MAILCHIMP CONFIG =====
+      var MC_DC = 'us21';
+      var MC_U = 'cf64b003a19979e390b9855e1';
+      var MC_ID = 'e332a30c5d';
+      var MC_TAGS = '3015383'; // ID numerico tag da Mailchimp
+
+      // ===== VALIDATION =====
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      function clearErrors() {
+        document.querySelectorAll('.field-error').forEach(function(el) {
+          el.classList.remove('field-error');
+        });
+        document.getElementById('consentError').style.display = 'none';
+      }
+
+      function showFieldError(fieldId) {
+        document.getElementById(fieldId).classList.add('field-error');
+      }
+
+      function validate() {
+        clearErrors();
+        var valid = true;
+
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var consent = document.getElementById('gdprConsent').checked;
+
+        if (!name || name.length < 2) {
+          showFieldError('fieldName');
+          valid = false;
+        }
+
+        if (!email || !validateEmail(email)) {
+          showFieldError('fieldEmail');
+          valid = false;
+        }
+
+        if (!consent) {
+          document.getElementById('consentError').style.display = 'block';
+          valid = false;
+        }
+
+        return valid;
+      }
+
+      // ===== SUBMIT TO MAILCHIMP (fire-and-forget) =====
+      function submitToMailchimp(name, email, phone) {
+        var params = 'u=' + MC_U +
+          '&id=' + MC_ID +
+          '&FNAME=' + encodeURIComponent(name) +
+          '&EMAIL=' + encodeURIComponent(email) +
+          '&PHONE=' + encodeURIComponent(phone) +
+          '&tags=' + encodeURIComponent(MC_TAGS) +
+          '&b_' + MC_U + '_' + MC_ID + '=';
+
+        var url = 'https://' + MC_DC + '.list-manage.com/subscribe/post-json?' + params;
+
+        var callbackName = 'mcCallback_' + Date.now();
+        window[callbackName] = function(response) {
+          delete window[callbackName];
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        };
+
+        var script = document.createElement('script');
+        script.src = url + '&c=' + callbackName;
+        script.onerror = function() {
+          delete window[callbackName];
+          if (script.parentNode) {
+            script.parentNode.removeChild(script);
+          }
+        };
+        document.body.appendChild(script);
+      }
+
+      // ===== FORM SUBMIT =====
+      // Stesso pattern della newsletter homepage:
+      // JSONP a Mailchimp (fire-and-forget) + submit nativo a Shopify (page reload con ?customer_posted=true)
+      form.addEventListener('submit', function(e) {
+        if (!validate()) {
+          e.preventDefault();
+          return;
+        }
+
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var phone = document.getElementById('phone').value.trim();
+
+        // Invia a Mailchimp (fire-and-forget, NON blocca il submit)
+        submitToMailchimp(name, email, phone);
+
+        // Il form procede con il submit nativo a Shopify → page reload con ?customer_posted=true
+        // La conferma viene mostrata dal check in cima allo script
+      }, true); // capture phase — così parte prima di hCaptcha
+
+      // ===== REAL-TIME FIELD CLEARING =====
+      document.querySelectorAll('.field input').forEach(function(input) {
+        input.addEventListener('input', function() {
+          this.closest('.field').classList.remove('field-error');
+        });
+      });
+
+      document.getElementById('gdprConsent').addEventListener('change', function() {
+        document.getElementById('consentError').style.display = 'none';
+      });
+
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+{%- assign sx_val = product.metafields.custom.foto_indossate.value -%}
+{%- assign dx_val = product.metafields.custom.foto_indossata_destra.value -%}
+{%- assign sx_url = "" -%}
+{%- assign dx_url = "" -%}
+{%- if sx_val != blank -%}
+  {%- capture sx_url %}{{ shop.url }}/cdn/shop/{{ sx_val }}{% endcapture -%}
+{%- endif -%}
+{%- if dx_val != blank -%}
+  {%- capture dx_url %}{{ shop.url }}/cdn/shop/{{ dx_val }}{% endcapture -%}
+{%- endif -%}
+[{% if sx_url != blank %}{{ sx_url | json }}{% endif %}{% if sx_url != blank and dx_url != blank %},{% endif %}{% if dx_url != blank %}{{ dx_url | json }}{% endif %}]
