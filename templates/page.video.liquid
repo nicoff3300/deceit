@@ -1,0 +1,111 @@
+{% layout none %}
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }}</title>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+    cursor: pointer; /* Indica all'utente che può cliccare */
+  }
+
+  video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+</style>
+</head>
+
+<body>
+
+<video id="tv-video" autoplay playsinline preload="auto"></video>
+
+<script>
+  const videos = [];
+
+  {% if page.metafields.custom.video_1 %}
+    videos.push("{{ page.metafields.custom.video_1 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_2 %}
+    videos.push("{{ page.metafields.custom.video_2 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_3 %}
+    videos.push("{{ page.metafields.custom.video_3 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_4 %}
+    videos.push("{{ page.metafields.custom.video_4 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_5 %}
+    videos.push("{{ page.metafields.custom.video_5 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_6 %}
+    videos.push("{{ page.metafields.custom.video_6 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_7 %}
+    videos.push("{{ page.metafields.custom.video_7 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_8 %}
+    videos.push("{{ page.metafields.custom.video_8 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_9 %}
+    videos.push("{{ page.metafields.custom.video_9 | file_url }}");
+  {% endif %}
+  {% if page.metafields.custom.video_10 %}
+    videos.push("{{ page.metafields.custom.video_10 | file_url }}");
+  {% endif %}
+
+  const player = document.getElementById('tv-video');
+
+  if (videos.length === 0) {
+    document.body.innerHTML =
+      '<p style="color:white;text-align:center;margin-top:40vh;">Nessun video caricato</p>';
+  } else {
+    let index = 0;
+
+    function playVideo(i) {
+      player.src = videos[i];
+      player.load(); // Carica il nuovo sorgente
+      
+      const playPromise = player.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log("Riproduzione con audio in attesa di interazione utente.");
+        });
+      }
+    }
+
+    // Gestione del loop
+    player.addEventListener('ended', () => {
+      index = (index + 1) % videos.length;
+      playVideo(index);
+    });
+
+    // SBLOCCO AUDIO: Al primo click sulla pagina, forza il play con audio
+    document.addEventListener('click', () => {
+      if (player.paused) {
+        player.play();
+      }
+      player.muted = false;
+    }, { once: true });
+
+    // Avvio iniziale
+    playVideo(index);
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "pf-5b64057b": {
+      "type": "pf-5b64057b",
+      "settings": {
+        "pf_079dd331_value": "Ho letto <u>l'<a href=\"/pages/gdpr-compliance\" target=\"_self\">informativa sulla privacy</a></u><a href=\"/pages/gdpr-compliance\" target=\"_self\"></a> e acconsento alla memorizzazione dei miei dati nel vostro archivio secondo quanto stabilito dal regolamento europeo per la protezione dei dati personali n. 679/2016, GDPR.&nbsp;",
+        "pf_580c22f3_errorMessage": "<b><span style=\"color: rgb(255, 0, 31);\"></span>Spiacente, l'invio non può essere effettuato! Riprova più tardi!<br><br>Ricordati di scriverti al nostro canale  WHATSAPP<br></b>",
+        "pf_580c22f3_successMessage": "<b>Grazie per averci scritto, <br>ti contatteremo al più presto.<br><br>Ricordati di scriverti al nostro canale&nbsp; WHATSAPP<br></b>",
+        "pf_26963d45_value": "DECĒIT STORE di NamaStore S.r.l.s. – Tutti i diritti riservati – Partita Iva: 08759070728",
+        "pf_f8bd36b2_value": "<span style=\"font-weight: 700;\">Decēit store - Via Abbrescia, 42 - Bari</span>",
+        "pf_68bf6d3b_value": "Desidero ricevere informazioni aggiornate e offerte speciali via email.",
+        "pf_d4b65f3e_value": "<strong>DAILY WEAR FOR PEOPLE<br>WHO STRUGGLE WITH THE TRUTH</strong>",
+        "pf_32abb561_value": "ISCRIVITI ALLA NEWSLETTER<br>",
+        "pf_e22c9b22_placeholder": "Inserisci la tua mail",
+        "pf_636e5331_placeholder": "Scrivi il tuo nome",
+        "pf_56411b5a_value": "DOVE CI TROVIAMO?",
+        "pf_7ef04071_checkboxLabel": "Si acconsento",
+        "pf_94299442_label_text": "Email",
+        "pf_acfcdb21_value": "INVIA",
+        "pf_b5cf9067_label_text": "Nome"
+      }
+    }
+  },
+  "order": [
+    "pf-5b64057b"
+  ]
+}

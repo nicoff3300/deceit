@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "card_prodotto": {
+      "type": "card-prodotto",
+      "settings": {}
+    }
+  },
+  "order": [
+    "card_prodotto"
+  ]
+}
+

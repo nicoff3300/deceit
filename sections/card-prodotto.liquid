@@ -1,0 +1,1786 @@
+<!-- sections/card-prodotto.liquid -->
+<!-- Tool Card Prodotto — Generatore card social per DECĒIT -->
+<!-- SEZIONE Shopify OS 2.0 — va installata in Sections -->
+
+<link rel="preload" href="https://cdn.shopify.com/s/files/1/0729/7876/0007/files/ABCFavorit-Bold-Trial_1777288450501.woff2?v=1777288456" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="https://cdn.shopify.com/s/files/1/0729/7876/0007/files/ABCFavoritPro-Book-Trial.otf?v=1777716685" as="font" type="font/otf" crossorigin>
+
+<style>
+  @font-face {
+    font-family: 'ABCFavorit';
+    src: url('https://cdn.shopify.com/s/files/1/0729/7876/0007/files/ABCFavorit-Bold-Trial_1777288450501.woff2?v=1777288456') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'ABCFavorit';
+    src: url('https://cdn.shopify.com/s/files/1/0729/7876/0007/files/ABCFavoritPro-Book-Trial.otf?v=1777716685') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+
+<style>
+  /* Nascondi header e footer del tema */
+  .header-group, .header-wrapper, .shopify-section-header,
+  .footer-group, .footer-wrapper, .shopify-section-footer,
+  nav.header, header.header,
+  footer.footer, .footer, .footer__content-wrapper,
+  .page-footer, .shopify-section-group-footer-group,
+  .shopify-section-group-header-group { display: none !important; }
+  /* Azzerare padding/margin dei wrapper esterni del tema su questa sezione */
+  main { padding: 0 !important; margin: 0 !important; }
+  .shopify-section:has(.card-prodotto-section),
+  .shopify-section:has(.card-prodotto-section) > *,
+  .shopify-section:has(.card-prodotto-section) > * > *,
+  .shopify-section:has(.card-prodotto-section) > * > * > * { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+  .card-prodotto-section { margin: 0 !important; padding: 0 !important; }
+</style>
+
+<style>
+  /* ===== RESET & BASE ===== */
+  .card-prodotto-app *, .card-prodotto-app *::before, .card-prodotto-app *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .card-prodotto-app {
+    --font: 'ABCFavorit', Helvetica, Arial, sans-serif;
+    --bg: #F5F5F0;
+    --text: #1A1A1A;
+    --border: #D0D0C8;
+    --radius: 4px;
+  }
+
+  .card-prodotto-app {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.5rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== LAYOUT — MOBILE FIRST ===== */
+  .card-prodotto-app .app {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  @media (min-width: 961px) {
+    .card-prodotto-app .app {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.5rem;
+      max-width: 1040px;
+    }
+    .card-prodotto-app .preview {
+      flex: 4 4 0;
+      min-width: 0;
+      position: sticky;
+      top: 1.5rem;
+    }
+    .card-prodotto-app .panel--content {
+      flex: 3 3 0;
+      min-width: 0;
+      position: static;
+    }
+    .card-prodotto-app .panel--layout {
+      flex: 3 3 0;
+      min-width: 0;
+      position: static;
+    }
+  }
+
+  /* ===== PANEL ===== */
+  .card-prodotto-app .panel {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    position: static;
+  }
+
+  @media (max-width: 960px) {
+    .card-prodotto-app .panel {
+      position: static;
+      width: 100%;
+      max-width: 100%;
+    }
+    .card-prodotto-app .preview {
+      width: 100%;
+      max-width: 100%;
+    }
+    .card-prodotto-app .preview__canvas-wrap {
+      max-width: 100%;
+    }
+  }
+
+  .card-prodotto-app .panel__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--text);
+  }
+
+  .card-prodotto-app .field-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .card-prodotto-app .field-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-prodotto-app .field-group label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.375rem;
+    opacity: 0.7;
+  }
+
+  .card-prodotto-app .field-group select,
+  .card-prodotto-app .field-group input[type="text"],
+  .card-prodotto-app .field-group input[type="url"],
+  .card-prodotto-app .field-group textarea {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font);
+    font-size: 0.875rem;
+    background: #fff;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .card-prodotto-app .field-group select:focus,
+  .card-prodotto-app .field-group input:focus {
+    border-color: var(--text);
+  }
+
+  /* ===== COLOR PICKER ===== */
+  .card-prodotto-app .color-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .card-prodotto-app .color-swatch {
+    width: 100%;
+    min-height: auto;
+    aspect-ratio: 5 / 2;
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+    display: block;
+  }
+
+  .card-prodotto-app .color-swatch:hover {
+    transform: scale(1.05);
+  }
+
+  .card-prodotto-app .color-swatch.active {
+    border-color: var(--text);
+    transform: scale(1.05);
+  }
+
+  .card-prodotto-app .color-swatch.active::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .card-prodotto-app .color-swatch[data-color="#17453C"] { background: #17453C; }
+  .card-prodotto-app .color-swatch[data-color="#F5CDBE"] { background: #F5CDBE; }
+  .card-prodotto-app .color-swatch[data-color="#A83329"] { background: #A83329; }
+  .card-prodotto-app .color-swatch[data-color="#F5E828"] { background: #F5E828; }
+
+  .card-prodotto-app .color-swatch[data-color="#F5CDBE"].active::after,
+  .card-prodotto-app .color-swatch[data-color="#F5E828"].active::after {
+    color: #000;
+    text-shadow: none;
+  }
+
+  /* ===== TEXT COLOR ===== */
+  .card-prodotto-app .text-color-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .card-prodotto-app .text-color-swatch {
+    width: 100%;
+    min-height: auto;
+    aspect-ratio: 5 / 2;
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+    display: block;
+  }
+
+  .card-prodotto-app .text-color-swatch:hover {
+    transform: scale(1.05);
+  }
+
+  .card-prodotto-app .text-color-swatch.active {
+    border-color: var(--text);
+    transform: scale(1.05);
+  }
+
+  .card-prodotto-app .text-color-swatch.active::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .card-prodotto-app .text-color-swatch[data-color="#17453C"] { background: #17453C; }
+  .card-prodotto-app .text-color-swatch[data-color="#F5CDBE"] { background: #F5CDBE; }
+  .card-prodotto-app .text-color-swatch[data-color="#A83329"] { background: #A83329; }
+  .card-prodotto-app .text-color-swatch[data-color="#F5E828"] { background: #F5E828; }
+
+  .card-prodotto-app .text-color-swatch[data-color="#F5CDBE"].active::after,
+  .card-prodotto-app .text-color-swatch[data-color="#F5E828"].active::after {
+    color: #000;
+    text-shadow: none;
+  }
+
+  /* ===== BUTTONS ===== */
+  .card-prodotto-app .btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--text);
+    border-radius: var(--radius);
+    font-family: var(--font);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+
+  .card-prodotto-app .btn--primary {
+    background: var(--text);
+    color: #fff;
+  }
+
+  .card-prodotto-app .btn--primary:hover {
+    opacity: 0.85;
+  }
+
+  .card-prodotto-app .btn--secondary {
+    background: transparent;
+    color: var(--text);
+  }
+
+  .card-prodotto-app .btn--secondary:hover {
+    background: var(--text);
+    color: #fff;
+  }
+
+  .card-prodotto-app .btn--small {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.6875rem;
+  }
+
+  .card-prodotto-app .btn--secondary.active {
+    background: var(--text);
+    color: #fff;
+  }
+
+  .card-prodotto-app .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ===== ALIGNMENT TOGGLE ===== */
+  .card-prodotto-app .align-toggle {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .card-prodotto-app .align-toggle button {
+    flex: 1;
+    padding: 0.5rem;
+    border: none;
+    background: #fff;
+    font-family: var(--font);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    color: var(--text);
+    opacity: 0.5;
+  }
+
+  .card-prodotto-app .align-toggle button.active {
+    background: var(--text);
+    color: #fff;
+    opacity: 1;
+  }
+
+  .card-prodotto-app .align-toggle button:not(:last-child) {
+    border-right: 1px solid var(--border);
+  }
+
+  /* ===== PRODUCT LIST ===== */
+  .card-prodotto-app .product-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-top: 0.375rem;
+  }
+
+  .card-prodotto-app .product-list-item {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: background 0.1s ease;
+    border-bottom: 1px solid #f0f0ea;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .card-prodotto-app .product-list-item:last-child {
+    border-bottom: none;
+  }
+
+  .card-prodotto-app .product-list-item:hover {
+    background: #f5f5f0;
+  }
+
+  .card-prodotto-app .product-list-item.active {
+    background: var(--text);
+    color: #fff;
+  }
+
+  .card-prodotto-app .product-list-item img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 2px;
+  }
+
+  .card-prodotto-app .product-list-item .pl-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-prodotto-app .product-list-item .pl-title {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-prodotto-app .product-list-item .pl-imgs {
+    font-size: 0.625rem;
+    opacity: 0.6;
+  }
+
+  .card-prodotto-app .product-list-status {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    margin-top: 0.25rem;
+  }
+
+  .card-prodotto-app .app-footer {
+    text-align: center;
+    font-size: 1rem;
+    opacity: 0.7;
+    padding: 1rem 0 0.5rem;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
+  /* ===== CANVAS PREVIEW ===== */
+  .card-prodotto-app .preview {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-prodotto-app .preview__canvas-wrap {
+    width: 100%;
+    max-width: 540px;
+    position: relative;
+  }
+
+  .card-prodotto-app .preview__canvas-wrap canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  .card-prodotto-app .preview__info {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    text-align: center;
+  }
+
+  .card-prodotto-app .preview__actions {
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 540px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* ===== LOADING ===== */
+  .card-prodotto-app .spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: cpSpin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 0.375rem;
+  }
+
+  @keyframes cpSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ===== RANGE SLIDER ===== */
+  .card-prodotto-app .range-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .card-prodotto-app .range-wrap input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+  }
+
+  .card-prodotto-app .range-wrap input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--text);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .card-prodotto-app .range-wrap input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--text);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
+
+  .card-prodotto-app .range-value {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    min-width: 3.5rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== IMAGE UPLOAD ===== */
+  .card-prodotto-app .file-upload {
+    position: relative;
+  }
+
+  .card-prodotto-app .file-upload input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* ===== IMAGE SELECTOR ===== */
+  .card-prodotto-app .img-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .card-prodotto-app .img-selector button {
+    flex: 1;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    font-family: var(--font);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .card-prodotto-app .img-selector button.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+
+  .card-prodotto-app .img-selector button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  /* ===== THUMBNAIL SELECTOR ===== */
+  .card-prodotto-app .thumb-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .card-prodotto-app .thumb-selector .thumb {
+    width: 72px;
+    height: 72px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+  }
+
+  .card-prodotto-app .thumb-selector .thumb:hover {
+    transform: scale(1.05);
+  }
+
+  .card-prodotto-app .thumb-selector .thumb.active {
+    border-color: var(--text);
+    transform: scale(1.05);
+  }
+
+  .card-prodotto-app .thumb-selector .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-prodotto-app .thumb-selector .thumb.active::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+</style>
+
+<div class="card-prodotto-app" id="cardProdottoApp">
+  <div class="app">
+    <!-- ===== PREVIEW (sempre visibile, in alto su mobile) ===== -->
+    <div class="preview">
+      <div class="preview__canvas-wrap">
+        <canvas id="cpCardCanvas" width="1080" height="1350"></canvas>
+      </div>
+      <div class="preview__info" id="cpPreviewInfo">Anteprima — la card viene renderizzata a risoluzione piena al download</div>
+      <div class="preview__actions">
+        <button class="btn btn--primary" id="cpDownloadBtn">
+          <span id="cpDownloadText">Scarica PNG</span>
+          <span id="cpDownloadSpinner" class="spinner" style="display:none;"></span>
+        </button>
+        <button class="btn btn--secondary" id="cpResetBtn">Azzera prodotto</button>
+        <button class="btn btn--secondary" id="cpResetAllBtn" style="border-color:#A83329; color:#A83329;">Reset tutto</button>
+      </div>
+    </div>
+
+    <!-- ===== PANEL 2: CONTENUTO (Collezione → Carica manuale) ===== -->
+    <div class="panel panel--content">
+      <div class="panel__title">Contenuto</div>
+
+      <!-- COLLEZIONE -->
+      <div class="field-group">
+        <label>Nome collezione Shopify</label>
+        <div style="display:flex; gap:0.375rem;">
+          <input type="text" id="cpCollectionInput" placeholder="es. ss26" style="flex:1;" value="ss26">
+          <button class="btn btn--small btn--secondary" id="cpFetchBtn" style="width:auto; flex-shrink:0;">Carica</button>
+        </div>
+      </div>
+
+      <!-- LISTA PRODOTTI -->
+      <div class="field-group" id="cpProductListGroup" style="display:none;">
+        <label>Seleziona prodotto</label>
+        <div class="product-list" id="cpProductList"></div>
+        <div class="product-list-status" id="cpProductStatus"></div>
+      </div>
+
+      <!-- SELEZIONE IMMAGINE -->
+      <div class="field-group" id="cpImageSelectorGroup" style="display:none;">
+        <label>Immagine prodotto</label>
+        <div class="thumb-selector" id="cpImgSelector"></div>
+        <button class="btn btn--small btn--secondary" id="cpImgRemoveBtn" style="margin-top:0.5rem;">Rimuovi immagine prodotto</button>
+      </div>
+
+      <!-- METAFIELD SFONDO -->
+      <div class="field-group" id="cpMetafieldGroup" style="display:none;">
+        <label>Sfondo da metafield (foto indossate)</label>
+        <div class="thumb-selector" id="cpMetafieldSelector"></div>
+        <button class="btn btn--small btn--secondary" id="cpMetafieldRemoveBtn" style="margin-top:0.5rem;">Rimuovi sfondo metafield</button>
+      </div>
+
+      <!-- ZOOM SFONDO -->
+      <div class="field-group">
+        <label>Zoom sfondo</label>
+        <div class="range-wrap">
+          <input type="range" id="cpBgScaleSlider" min="50" max="200" value="100" step="5">
+          <span class="range-value" id="cpBgScaleValue">100%</span>
+        </div>
+      </div>
+
+      <!-- CARICA MANUALE -->
+      <div class="field-group">
+        <label>Carica immagine manuale</label>
+        <div style="display:flex; gap:0.375rem;">
+          <div class="file-upload" style="flex:1;">
+            <button class="btn btn--small btn--secondary" id="cpManualUploadBtn" style="width:100%;">Scegli file...</button>
+            <input type="file" id="cpManualUploadInput" accept="image/*">
+          </div>
+          <button class="btn btn--small btn--secondary" id="cpManualRemoveBtn" style="width:auto; flex-shrink:0;">✕</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== PANEL 3: LAYOUT (Formato → Allineamento) ===== -->
+    <div class="panel panel--layout">
+      <div class="panel__title">Layout</div>
+
+      <!-- FORMATO -->
+      <div class="field-group">
+        <label>Formato</label>
+        <select id="cpFormatSelect">
+          <option value="1080x1350">1080 × 1350 (4:5)</option>
+          <option value="1080x1920">1080 × 1920 (9:16)</option>
+        </select>
+      </div>
+
+      <!-- PADDING TOP IMMAGINE -->
+      <div class="field-group">
+        <label>Padding top immagine</label>
+        <div class="range-wrap">
+          <input type="range" id="cpPaddingSlider" min="0" max="500" value="50" step="5">
+          <span class="range-value" id="cpPaddingValue">50px</span>
+        </div>
+      </div>
+
+      <!-- PADDING TOP LOGO -->
+      <div class="field-group">
+        <label>Padding top logo</label>
+        <div class="range-wrap">
+          <input type="range" id="cpLogoPaddingSlider" min="0" max="500" value="50" step="5">
+          <span class="range-value" id="cpLogoPaddingValue">50px</span>
+        </div>
+      </div>
+
+      <!-- IMMAGINE SFONDO -->
+      <div class="field-group">
+        <label>Immagine sfondo</label>
+        <div style="display:flex; gap:0.375rem;">
+          <div class="file-upload" style="flex:1;">
+            <button class="btn btn--small btn--secondary" id="cpBgUploadBtn" style="width:100%;">Scegli file...</button>
+            <input type="file" id="cpBgUploadInput" accept="image/*">
+          </div>
+          <button class="btn btn--small btn--secondary" id="cpBgRemoveBtn" style="width:auto; flex-shrink:0;">✕</button>
+        </div>
+      </div>
+
+      <!-- COLORE SFONDO -->
+      <div class="field-group">
+        <label>Colore sfondo</label>
+        <div class="color-grid" id="cpBgColorGrid">
+          <div class="color-swatch active" data-color="#17453C"></div>
+          <div class="color-swatch" data-color="#F5CDBE"></div>
+          <div class="color-swatch" data-color="#A83329"></div>
+          <div class="color-swatch" data-color="#F5E828"></div>
+        </div>
+      </div>
+
+      <!-- COLORE TESTO -->
+      <div class="field-group">
+        <label>Colore testo</label>
+        <div class="text-color-grid" id="cpTextColorGrid">
+          <div class="text-color-swatch" data-color="#17453C"></div>
+          <div class="text-color-swatch" data-color="#F5CDBE"></div>
+          <div class="text-color-swatch" data-color="#A83329"></div>
+          <div class="text-color-swatch active" data-color="#F5E828"></div>
+        </div>
+        <p style="font-size:0.8rem; opacity:0.5; margin-top:0.25rem;">Non può essere uguale al colore sfondo</p>
+      </div>
+
+      <!-- COLORE LOGO SVG -->
+      <div class="field-group">
+        <label>Colore logo DECĒIT</label>
+        <div class="text-color-grid" id="cpLogoColorGrid">
+          <div class="text-color-swatch" data-color="#17453C"></div>
+          <div class="text-color-swatch" data-color="#F5CDBE"></div>
+          <div class="text-color-swatch" data-color="#A83329"></div>
+          <div class="text-color-swatch active" data-color="#F5E828"></div>
+        </div>
+        <p style="font-size:0.8rem; opacity:0.5; margin-top:0.25rem;">Non può essere uguale al colore sfondo</p>
+      </div>
+
+      <!-- TOGGLE LOGO -->
+      <div class="field-group">
+        <label>Mostra logo DECĒIT</label>
+        <button class="btn btn--small btn--secondary active" id="cpLogoToggleBtn" style="width:100%;">Logo ON</button>
+      </div>
+
+      <!-- TESTO 1 -->
+      <div class="field-group">
+        <label>Testo 1 (titolo prodotto)</label>
+        <textarea id="cpText1Input" placeholder="Titolo prodotto" rows="2" style="width:100%; padding:0.625rem 0.75rem; border:1px solid var(--border); border-radius:var(--radius); font-family:var(--font); font-size:0.875rem; background:#fff; color:var(--text); outline:none; resize:vertical; transition:border-color 0.15s ease;"></textarea>
+      </div>
+
+      <!-- TESTO 2 -->
+      <div class="field-group">
+        <label>Testo 2 (nome collezione)</label>
+        <textarea id="cpText2Input" placeholder="Nome collezione" rows="2" style="width:100%; padding:0.625rem 0.75rem; border:1px solid var(--border); border-radius:var(--radius); font-family:var(--font); font-size:0.875rem; background:#fff; color:var(--text); outline:none; resize:vertical; transition:border-color 0.15s ease;"></textarea>
+      </div>
+
+      <!-- ALLINEAMENTO -->
+      <div class="field-group">
+        <label>Allineamento testo</label>
+        <div class="align-toggle" id="cpAlignToggle">
+          <button data-align="center">Centrato</button>
+          <button class="active" data-align="left">A bandiera</button>
+        </div>
+      </div>
+
+  </div>
+
+  <div class="app-footer"Decēit social card v.1.0</div>
+</div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ===== STATE =====
+  var state = {
+    format: '1080x1350',
+    bgColor: '#17453C',
+    textColor: '#F5E828',
+    align: 'left',
+    imagePaddingTop: 50,
+    logoPaddingTop: 140,
+    logoColor: '#F5E828',
+    logoEnabled: true,
+    logoSvgText: null,
+    logoImage: null,
+    text1: 'PRODOTTO',
+    text2: 'SS26',
+    collectionHandle: 'ss26',
+    products: [],
+    selectedProduct: null,
+    activeImageIndex: 0,
+    imageUrl: null,
+    bgImage: null,
+    bgImageDataUrl: null,
+    bgScale: 100,
+    metafieldImages: [],
+    activeMetafieldIndex: -1,
+    isDirty: true
+  };
+
+  // ===== DOM REFS (scoped IDs) =====
+  var canvas = document.getElementById('cpCardCanvas');
+  var ctx = canvas.getContext('2d');
+
+  var formatSelect = document.getElementById('cpFormatSelect');
+  var bgColorGrid = document.getElementById('cpBgColorGrid');
+  var textColorGrid = document.getElementById('cpTextColorGrid');
+  var logoColorGrid = document.getElementById('cpLogoColorGrid');
+  var collectionInput = document.getElementById('cpCollectionInput');
+  var fetchBtn = document.getElementById('cpFetchBtn');
+  var productList = document.getElementById('cpProductList');
+  var productStatus = document.getElementById('cpProductStatus');
+  var productListGroup = document.getElementById('cpProductListGroup');
+  var imageSelectorGroup = document.getElementById('cpImageSelectorGroup');
+  var imgSelector = document.getElementById('cpImgSelector');
+  var imgRemoveBtn = document.getElementById('cpImgRemoveBtn');
+  var manualUploadBtn = document.getElementById('cpManualUploadBtn');
+  var manualUploadInput = document.getElementById('cpManualUploadInput');
+  var manualRemoveBtn = document.getElementById('cpManualRemoveBtn');
+  var bgUploadBtn = document.getElementById('cpBgUploadBtn');
+  var bgUploadInput = document.getElementById('cpBgUploadInput');
+  var bgRemoveBtn = document.getElementById('cpBgRemoveBtn');
+  var text1Input = document.getElementById('cpText1Input');
+  var text2Input = document.getElementById('cpText2Input');
+  var alignToggle = document.getElementById('cpAlignToggle');
+  var downloadBtn = document.getElementById('cpDownloadBtn');
+  var downloadText = document.getElementById('cpDownloadText');
+  var downloadSpinner = document.getElementById('cpDownloadSpinner');
+  var previewInfo = document.getElementById('cpPreviewInfo');
+  var resetBtn = document.getElementById('cpResetBtn');
+  var resetAllBtn = document.getElementById('cpResetAllBtn');
+  var paddingSlider = document.getElementById('cpPaddingSlider');
+  var paddingValue = document.getElementById('cpPaddingValue');
+  var logoPaddingSlider = document.getElementById('cpLogoPaddingSlider');
+  var logoPaddingValue = document.getElementById('cpLogoPaddingValue');
+  var logoToggleBtn = document.getElementById('cpLogoToggleBtn');
+  var metafieldGroup = document.getElementById('cpMetafieldGroup');
+  var metafieldSelector = document.getElementById('cpMetafieldSelector');
+  var metafieldRemoveBtn = document.getElementById('cpMetafieldRemoveBtn');
+  var bgScaleSlider = document.getElementById('cpBgScaleSlider');
+  var bgScaleValue = document.getElementById('cpBgScaleValue');
+
+  // Imposta valori iniziali degli input
+  text1Input.value = state.text1;
+  text2Input.value = state.text2;
+
+  // ===== HELPERS =====
+  function getFormat() {
+    var parts = state.format.split('x');
+    return { w: parseInt(parts[0], 10), h: parseInt(parts[1], 10) };
+  }
+
+  function isFormat1350() {
+    return state.format === '1080x1350';
+  }
+
+  function getImageTopPadding() {
+    return state.imagePaddingTop;
+  }
+
+  function getLogoTopPadding() {
+    return state.logoPaddingTop;
+  }
+
+  function getTextBottomMargin() {
+    return isFormat1350() ? 68 : 360;
+  }
+
+  function getTextSideMargin() { return 68; }
+  function getTextGap() { return 26; }
+  function getTitleFontSize() { return 112; }
+  function getSubtitleFontSize() { return 85; }
+
+  function hexToRgba(hex, alpha) {
+    var r = parseInt(hex.slice(1,3), 16);
+    var g = parseInt(hex.slice(3,5), 16);
+    var b = parseInt(hex.slice(5,7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+  // ===== LOGO SVG DECĒIT =====
+  var LOGO_SVG_URL = 'https://cdn.shopify.com/s/files/1/0729/7876/0007/files/Logo_deceit_store_5ed881a0-eed5-4d6f-a6f5-f7f06aef9852.svg?v=1768909787';
+
+  function colorizeSvg(svgText, color) {
+    return svgText.replace(/fill\s*:\s*#[0-9a-fA-F]{3,6}/gi, 'fill:' + color)
+                  .replace(/fill\s*=\s*"#[0-9a-fA-F]{3,6}"/gi, 'fill="' + color + '"')
+                  .replace(/\.st0\s*\{[^}]*\}/gi, '.st0{fill:' + color + '}');
+  }
+
+  function createLogoImage(callback) {
+    if (state.logoImage) {
+      callback(state.logoImage);
+      return;
+    }
+    if (!state.logoSvgText) {
+      // Will call callback once loaded
+      state._logoCallback = callback;
+      return;
+    }
+    var colored = colorizeSvg(state.logoSvgText, state.logoColor);
+    var blob = new Blob([colored], { type: 'image/svg+xml;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var img = new Image();
+    img.onload = function() {
+      state.logoImage = img;
+      callback(img);
+    };
+    img.src = url;
+  }
+
+  function drawLogoOnCanvas(W, H) {
+    if (!state.logoImage || !state.logoEnabled) return;
+    var logoTopPad = getLogoTopPadding();
+    var logoW = W * 0.26;
+    var aspect = state.logoImage.naturalWidth / state.logoImage.naturalHeight;
+    var logoH = logoW / aspect;
+    var logoX = (W - logoW) / 2;
+    var logoY = logoTopPad;
+    ctx.drawImage(state.logoImage, logoX, logoY, logoW, logoH);
+  }
+
+  // ===== TEXT WRAPPING (supporta a capo manuali con \n) =====
+  function wrapText(ctx, text, maxWidth, fontSize, fontFamily, fontWeight) {
+    ctx.font = fontWeight + ' ' + fontSize + 'px ' + fontFamily;
+    var allLines = [];
+    // Prima dividi per a capo manuali, poi wrappa ogni riga
+    var paragraphs = text.split('\n');
+    for (var p = 0; p < paragraphs.length; p++) {
+      var paragraph = paragraphs[p];
+      if (!paragraph.trim()) {
+        // Riga vuota volontaria → riga vuota nel canvas
+        allLines.push('');
+        continue;
+      }
+      var words = paragraph.split(' ');
+      var currentLine = '';
+      for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+        var testLine = currentLine ? currentLine + ' ' + word : word;
+        var metrics = ctx.measureText(testLine);
+        if (metrics.width > maxWidth && currentLine) {
+          allLines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = testLine;
+        }
+      }
+      if (currentLine) {
+        allLines.push(currentLine);
+      }
+    }
+    return allLines;
+  }
+
+  // ===== CORE RENDER =====
+  function render() {
+    var fmt = getFormat();
+    var W = fmt.w;
+    var H = fmt.h;
+
+    canvas.width = W;
+    canvas.height = H;
+
+    // Sfondo colore
+    ctx.fillStyle = state.bgColor;
+    ctx.fillRect(0, 0, W, H);
+
+    // Sfondo immagine (cover) se caricata — con zoom
+    if (state.bgImage) {
+      var scaleFactor = state.bgScale / 100;
+      var bgAspect = state.bgImage.naturalWidth / state.bgImage.naturalHeight;
+      var bgW, bgH, bgX, bgY;
+      if (bgAspect > W / H) {
+        bgH = H;
+        bgW = H * bgAspect;
+        bgX = (W - bgW) / 2;
+        bgY = 0;
+      } else {
+        bgW = W;
+        bgH = W / bgAspect;
+        bgX = 0;
+        bgY = (H - bgH) / 2;
+      }
+      // Applica zoom dal centro
+      var cx = bgX + bgW / 2;
+      var cy = bgY + bgH / 2;
+      bgW *= scaleFactor;
+      bgH *= scaleFactor;
+      bgX = cx - bgW / 2;
+      bgY = cy - bgH / 2;
+      ctx.drawImage(state.bgImage, bgX, bgY, bgW, bgH);
+    }
+
+    // 1) Immagine prodotto
+    // 2) Logo SVG — sovrapposto sopra, ancorato al top border
+    // 3) Testo — in basso
+    var imgSrc = state.imageUrl;
+    if (imgSrc) {
+      var img = new Image();
+      img.onload = function() {
+        drawImageOnCanvas(img, W, H);
+        drawLogoOnCanvas(W, H);
+        drawTextOverlay(W, H, true);
+      };
+      img.onerror = function() {
+        drawLogoOnCanvas(W, H);
+        drawTextOverlay(W, H, false);
+      };
+      img.crossOrigin = 'anonymous';
+      img.src = imgSrc;
+    } else {
+      drawLogoOnCanvas(W, H);
+      drawTextOverlay(W, H, false);
+    }
+  }
+
+  function drawImageOnCanvas(img, W, H) {
+    var topPad = getImageTopPadding();
+    var is1350 = isFormat1350();
+
+    var imgAspect = img.naturalWidth / img.naturalHeight;
+    var drawW = W;
+    var drawH = drawW / imgAspect;
+    var drawX = 0;
+    var drawY = topPad - (is1350 ? 70 : 0) - (drawH - W / imgAspect) / 2;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0, topPad, W, H - topPad);
+    ctx.clip();
+    ctx.drawImage(img, drawX, drawY, drawW, drawH);
+    ctx.restore();
+  }
+
+  function drawTextOverlay(W, H, hasImage) {
+    var sideMargin = getTextSideMargin();
+    var bottomMargin = getTextBottomMargin();
+    var textGap = getTextGap();
+    var maxWidth = W - sideMargin * 2;
+    var align = state.align;
+
+    var titleText = state.text1 ? state.text1.toUpperCase() : '';
+    var subtitleText = state.text2 || '';
+    if (!titleText && !subtitleText) return;
+
+    var titleSize = getTitleFontSize();
+    var subtitleSize = getSubtitleFontSize();
+    var fontFamily = 'ABCFavorit';
+
+    ctx.textBaseline = 'bottom';
+    ctx.font = '700 ' + titleSize + 'px ' + fontFamily;
+    var titleLines = wrapText(ctx, titleText, maxWidth, titleSize, fontFamily, '700');
+
+    ctx.font = '500 ' + subtitleSize + 'px ' + fontFamily;
+    var subtitleLines = wrapText(ctx, subtitleText, maxWidth, subtitleSize, fontFamily, '500');
+
+    var lineHeightTitle = titleSize * 0.85;
+    var lineHeightSubtitle = subtitleSize * 1.1;
+    var titleBlockH = titleLines.length * lineHeightTitle;
+    var subtitleBlockH = subtitleLines.length * lineHeightSubtitle;
+    var totalTextH = titleBlockH + textGap + subtitleBlockH;
+
+    var textBlockTop;
+    if (hasImage === false) {
+      // Senza immagine: testo centrato sull'asse Y del canvas
+      textBlockTop = (H - totalTextH) / 2;
+    } else {
+      var textBlockBottom = H - bottomMargin;
+      textBlockTop = textBlockBottom - totalTextH;
+      if (textBlockTop < 0) {
+        textBlockTop = 10;
+      }
+    }
+
+    // ---- DRAW TITLE ----
+    ctx.textBaseline = 'bottom';
+    ctx.font = '700 ' + titleSize + 'px ' + fontFamily;
+    ctx.fillStyle = state.textColor;
+
+    for (var i = 0; i < titleLines.length; i++) {
+      var line = titleLines[i];
+      var x;
+      if (align === 'center') {
+        var metrics = ctx.measureText(line);
+        x = (W - metrics.width) / 2;
+      } else {
+        x = sideMargin;
+      }
+      var y = textBlockTop + (i + 1) * lineHeightTitle;
+      ctx.fillText(line, x, y);
+    }
+
+    // ---- DRAW SUBTITLE ----
+    var subtitleY = textBlockTop + titleBlockH + textGap;
+    ctx.font = '500 ' + subtitleSize + 'px ' + fontFamily;
+    ctx.fillStyle = state.textColor;
+
+    for (var j = 0; j < subtitleLines.length; j++) {
+      var sLine = subtitleLines[j];
+      var sx;
+      if (align === 'center') {
+        var sm = ctx.measureText(sLine);
+        sx = (W - sm.width) / 2;
+      } else {
+        sx = sideMargin;
+      }
+      var sy = subtitleY + (j + 1) * lineHeightSubtitle;
+      ctx.fillText(sLine, sx, sy);
+    }
+
+    if (previewInfo) {
+      previewInfo.textContent = W + ' × ' + H + ' px | ' + state.format;
+    }
+
+    state.isDirty = false;
+  }
+
+  // ===== FETCH PRODOTTI =====
+  function fetchProducts() {
+    var handle = state.collectionHandle.trim();
+    if (!handle) return;
+
+    productList.innerHTML = '<div class="product-list-item" style="opacity:0.5;">Caricamento...</div>';
+    productListGroup.style.display = 'block';
+    productStatus.textContent = 'Caricamento in corso...';
+
+    var collUrl = '/collections/' + encodeURIComponent(handle) + '.json';
+    fetch(collUrl)
+      .then(function(res) {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then(function(collData) {
+        var collName = '';
+        if (collData && collData.collection && collData.collection.title) {
+          collName = collData.collection.title;
+        } else {
+          collName = handle.replace(/-/g, ' ').replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+        }
+        state.text2 = collName;
+        text2Input.value = collName;
+
+        var url = '/collections/' + encodeURIComponent(handle) + '/products.json?limit=250';
+        return fetch(url);
+      })
+      .then(function(res) {
+        if (!res) return;
+        if (!res.ok) throw new Error('Collezione non trovata (' + res.status + ')');
+        return res.json();
+      })
+      .then(function(data) {
+        if (!data) return;
+        var products = data.products || [];
+        if (products.length === 0) {
+          productList.innerHTML = '<div class="product-list-item" style="opacity:0.5;">Nessun prodotto trovato</div>';
+          productStatus.textContent = '0 prodotti';
+          state.products = [];
+          render();
+          return;
+        }
+        state.products = products;
+        renderProductList(products);
+        productStatus.textContent = products.length + ' prodotti trovati';
+        render();
+      })
+      .catch(function(err) {
+        productList.innerHTML = '<div class="product-list-item" style="opacity:0.5; color:#A83329;">Errore: ' + err.message + '</div>';
+        productStatus.textContent = 'Errore caricamento';
+        render();
+      });
+  }
+
+  function renderProductList(products) {
+    productList.innerHTML = '';
+    products.forEach(function(p) {
+      var item = document.createElement('div');
+      item.className = 'product-list-item';
+      if (state.selectedProduct && state.selectedProduct.id === p.id) {
+        item.classList.add('active');
+      }
+
+      var imgUrl = (p.images && p.images.length > 0)
+        ? p.images[0].src
+        : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="%23ccc"%3E%3Crect width="36" height="36"/%3E%3C/svg%3E';
+
+      var imgCount = p.images ? p.images.length : 0;
+
+      item.innerHTML =
+        '<img src="' + imgUrl + '" alt="" loading="lazy">' +
+        '<div class="pl-info">' +
+          '<div class="pl-title">' + (p.title || 'Senza titolo') + '</div>' +
+          '<div class="pl-imgs">' + imgCount + ' foto</div>' +
+        '</div>';
+
+      item.addEventListener('click', function() {
+        selectProduct(p);
+      });
+
+      productList.appendChild(item);
+    });
+  }
+
+  function selectProduct(product) {
+    state.selectedProduct = product;
+
+    var items = productList.querySelectorAll('.product-list-item');
+    items.forEach(function(item) { item.classList.remove('active'); });
+    var idx = state.products.indexOf(product);
+    if (idx >= 0 && items[idx]) {
+      items[idx].classList.add('active');
+    }
+
+    state.text1 = product.title || '';
+    text1Input.value = state.text1;
+
+    var imgCount = (product.images && product.images.length) || 0;
+    imageSelectorGroup.style.display = 'block';
+
+    // Popola thumbnail selettore immagine prodotto
+    imgSelector.innerHTML = '';
+    for (var ii = 0; ii < Math.min(imgCount, 4); ii++) {
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb' + (ii === 0 ? ' active' : '');
+      thumb.dataset.imgIndex = ii;
+      var thumbImg = document.createElement('img');
+      thumbImg.src = product.images[ii].src;
+      thumbImg.alt = (ii + 1) + 'ª foto';
+      thumbImg.loading = 'lazy';
+      thumb.appendChild(thumbImg);
+      thumb.addEventListener('click', (function(idx) {
+        return function() {
+          imgSelector.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+          this.classList.add('active');
+          loadProductImage(product, idx);
+        };
+      })(ii));
+      imgSelector.appendChild(thumb);
+    }
+
+    state.activeImageIndex = 0;
+    loadProductImage(product, 0);
+
+    // Spegni logo quando selezioni un prodotto
+    state.logoEnabled = false;
+    logoToggleBtn.textContent = 'Logo OFF';
+    logoToggleBtn.classList.remove('active');
+
+    // Fetch metafield images per questa scheda
+    fetchMetafieldImages(product);
+  }
+
+  function loadProductImage(product, index) {
+    if (!product.images || product.images.length <= index) {
+      state.imageUrl = null;
+      render();
+      return;
+    }
+
+    state.activeImageIndex = index;
+    state.imageUrl = product.images[index].src;
+
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() { render(); };
+    img.onerror = function() { render(); };
+    img.src = state.imageUrl;
+
+    setTimeout(function() {
+      if (state.isDirty) render();
+    }, 200);
+  }
+
+  // ===== METAFIELD SFONDO =====
+  function fetchMetafieldImages(product) {
+    var handle = product.handle;
+    // ?section_id= rende solo il contenuto di questa section sul product page context
+    var url = '/products/' + encodeURIComponent(handle) + '?section_id=metafield-images&view=json';
+    fetch(url)
+      .then(function(res) {
+        if (!res.ok) return null;
+        return res.text();
+      })
+      .then(function(text) {
+        if (!text) {
+          state.metafieldImages = [];
+          state.activeMetafieldIndex = -1;
+          metafieldGroup.style.display = 'none';
+          return;
+        }
+          // Shopify wrappa il contenuto in <div class="shopify-section">...</div>
+          // Estraiamo il JSON da dentro il wrapper HTML
+          var jsonMatch = text.match(/>\s*(\[.*?\])\s*</);
+          var jsonStr = jsonMatch ? jsonMatch[1] : text;
+          try {
+            var data = JSON.parse(jsonStr);
+            if (!data || !Array.isArray(data) || data.length === 0) {
+              state.metafieldImages = [];
+              state.activeMetafieldIndex = -1;
+              metafieldGroup.style.display = 'none';
+              return;
+            }
+            state.metafieldImages = data;
+            renderMetafieldSelector();
+            metafieldGroup.style.display = 'block';
+          } catch(e) {
+            state.metafieldImages = [];
+            state.activeMetafieldIndex = -1;
+            metafieldGroup.style.display = 'none';
+          }
+      })
+      .catch(function() {
+        state.metafieldImages = [];
+        state.activeMetafieldIndex = -1;
+        metafieldGroup.style.display = 'none';
+      });
+  }
+
+  function renderMetafieldSelector() {
+    metafieldSelector.innerHTML = '';
+    state.metafieldImages.forEach(function(url, i) {
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb' + (i === state.activeMetafieldIndex ? ' active' : '');
+      thumb.dataset.mfIndex = i;
+      var thumbImg = document.createElement('img');
+      thumbImg.src = url;
+      thumbImg.alt = (i === 0 ? 'Sinistra' : 'Destra');
+      thumbImg.loading = 'lazy';
+      thumb.appendChild(thumbImg);
+      thumb.addEventListener('click', function() {
+        selectMetafieldImage(parseInt(this.dataset.mfIndex, 10));
+      });
+      metafieldSelector.appendChild(thumb);
+    });
+  }
+
+  function selectMetafieldImage(index) {
+    if (index < 0 || index >= state.metafieldImages.length) return;
+    state.activeMetafieldIndex = index;
+    var mfUrl = state.metafieldImages[index];
+    // Liquido può restituire URL con o senza https:
+    if (mfUrl.indexOf('//') === 0) {
+      mfUrl = 'https:' + mfUrl;
+    }
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+      state.bgImage = img;
+      state.bgImageDataUrl = mfUrl;
+      state.isDirty = true;
+      render();
+    };
+    img.onerror = function() {
+      // fallback silenzioso
+    };
+    img.src = mfUrl;
+    // Aggiorna active state nei thumbnail
+    metafieldSelector.querySelectorAll('.thumb').forEach(function(t) {
+      t.classList.remove('active');
+    });
+    var thumb = metafieldSelector.querySelector('[data-mf-index="' + index + '"]');
+    if (thumb) thumb.classList.add('active');
+  }
+
+  function handleManualUpload(file) {
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        state.bgImage = img;
+        state.bgImageDataUrl = e.target.result;
+        state.activeMetafieldIndex = -1;
+        metafieldSelector.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+        state.isDirty = true;
+        render();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function downloadPNG() {
+    downloadText.textContent = 'Generazione...';
+    downloadSpinner.style.display = 'inline-block';
+    downloadBtn.disabled = true;
+
+    render();
+
+    setTimeout(function() {
+      var link = document.createElement('a');
+      link.download = 'card-prodotto-' + state.format + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      downloadText.textContent = 'Scarica PNG';
+      downloadSpinner.style.display = 'none';
+      downloadBtn.disabled = false;
+    }, 300);
+  }
+
+  function resetProduct() {
+    state.selectedProduct = null;
+    state.imageUrl = null;
+    state.text1 = 'PRODOTTO';
+    state.text2 = 'SS26';
+    state.activeImageIndex = 0;
+    text1Input.value = 'PRODOTTO';
+    text2Input.value = 'SS26';
+    imageSelectorGroup.style.display = 'none';
+
+    // Non resetta bgImage intenzionalmente (è un controllo indipendente)
+
+    var items = productList.querySelectorAll('.product-list-item');
+    items.forEach(function(item) { item.classList.remove('active'); });
+
+    render();
+  }
+
+  function resetAll() {
+    // Azzera tutti valori e UI allo stato iniziale
+    state.format = '1080x1350';
+    state.bgColor = '#17453C';
+    state.textColor = '#F5E828';
+    state.align = 'left';
+    state.imagePaddingTop = 50;
+    state.logoPaddingTop = 140;
+    state.logoColor = '#F5E828';
+    state.logoEnabled = true;
+    state.text1 = 'PRODOTTO';
+    state.text2 = 'SS26';
+    state.collectionHandle = 'ss26';
+    // Non resetta prodotti né selezione prodotto
+    state.activeImageIndex = 0;
+    state.imageUrl = null;
+    state.bgImage = null;
+    state.bgImageDataUrl = null;
+    state.bgScale = 100;
+    state.products = [];
+
+    // UI: formato
+    formatSelect.value = '1080x1350';
+
+    // UI: slider
+    paddingSlider.value = 50;
+    paddingValue.textContent = '50px';
+    var defLogoPad = state.format === '1080x1350' ? 140 : 370;
+    logoPaddingSlider.value = defLogoPad;
+    logoPaddingValue.textContent = defLogoPad + 'px';
+    bgScaleSlider.value = 100;
+    bgScaleValue.textContent = '100%';
+
+    // UI: input/testo
+    text1Input.value = 'PRODOTTO';
+    text2Input.value = 'SS26';
+    collectionInput.value = 'ss26';
+    manualUploadInput.value = '';
+
+    // UI: allineamento
+    alignToggle.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.align === 'left');
+    });
+    state.align = 'left';
+
+    // UI: logo toggle
+    logoToggleBtn.classList.add('active');
+    logoToggleBtn.textContent = 'Logo ON';
+
+    // UI: color grids — resetta attivi
+    bgColorGrid.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.color === '#17453C');
+    });
+    textColorGrid.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.color === '#F5E828');
+    });
+    logoColorGrid.querySelectorAll('button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.color === '#F5E828');
+    });
+
+    // UI: collezione — lascia i prodotti caricati visibili
+    imageSelectorGroup.style.display = 'none';
+
+    // Ricostruisci logo image col nuovo colore
+    if (state.logoSvgText) {
+      var colored = colorizeSvg(state.logoSvgText, state.logoColor);
+      var blob = new Blob([colored], { type: 'image/svg+xml;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var img = new Image();
+      img.onload = function() {
+        state.logoImage = img;
+        state.isDirty = true;
+        render();
+      };
+      img.src = url;
+    } else {
+      state.isDirty = true;
+      render();
+    }
+  }
+
+  // ===== EVENTI =====
+  formatSelect.addEventListener('change', function() {
+    state.format = this.value;
+    var is1350 = state.format === '1080x1350';
+    var defaultPadding = is1350 ? 50 : 180;
+    var defaultLogoPadding = is1350 ? 140 : 370;
+    state.imagePaddingTop = defaultPadding;
+    state.logoPaddingTop = defaultLogoPadding;
+    paddingSlider.value = defaultPadding;
+    paddingValue.textContent = defaultPadding + 'px';
+    logoPaddingSlider.value = defaultLogoPadding;
+    logoPaddingValue.textContent = defaultLogoPadding + 'px';
+    state.isDirty = true;
+    render();
+  });
+
+  paddingSlider.addEventListener('input', function() {
+    state.imagePaddingTop = parseInt(this.value, 10);
+    paddingValue.textContent = this.value + 'px';
+    state.isDirty = true;
+    render();
+  });
+
+  logoPaddingSlider.addEventListener('input', function() {
+    state.logoPaddingTop = parseInt(this.value, 10);
+    logoPaddingValue.textContent = this.value + 'px';
+    state.isDirty = true;
+    render();
+  });
+
+  bgColorGrid.addEventListener('click', function(e) {
+    var swatch = e.target.closest('.color-swatch');
+    if (!swatch) return;
+    var color = swatch.getAttribute('data-color');
+    if (color === state.textColor) {
+      alert('Il colore dello sfondo non può essere uguale al colore del testo.');
+      return;
+    }
+    if (color === state.logoColor) {
+      alert('Il colore dello sfondo non può essere uguale al colore del logo.');
+      return;
+    }
+    state.bgColor = color;
+    bgColorGrid.querySelectorAll('.color-swatch').forEach(function(s) { s.classList.remove('active'); });
+    swatch.classList.add('active');
+    state.isDirty = true;
+    render();
+  });
+
+  textColorGrid.addEventListener('click', function(e) {
+    var swatch = e.target.closest('.text-color-swatch');
+    if (!swatch) return;
+    var color = swatch.getAttribute('data-color');
+    if (color === state.bgColor) {
+      alert('Il colore del testo non può essere uguale al colore dello sfondo.');
+      return;
+    }
+    state.textColor = color;
+    textColorGrid.querySelectorAll('.text-color-swatch').forEach(function(s) { s.classList.remove('active'); });
+    swatch.classList.add('active');
+    state.isDirty = true;
+    render();
+  });
+
+  logoColorGrid.addEventListener('click', function(e) {
+    var swatch = e.target.closest('.text-color-swatch');
+    if (!swatch) return;
+    var color = swatch.getAttribute('data-color');
+    if (color === state.bgColor) {
+      alert('Il colore del logo non può essere uguale al colore dello sfondo.');
+      return;
+    }
+    state.logoColor = color;
+    state.logoImage = null; // force rebuild with new color
+    logoColorGrid.querySelectorAll('.text-color-swatch').forEach(function(s) { s.classList.remove('active'); });
+    swatch.classList.add('active');
+    state.isDirty = true;
+    createLogoImage(function() { render(); });
+  });
+
+  fetchBtn.addEventListener('click', function() {
+    state.collectionHandle = collectionInput.value.trim();
+    if (!state.collectionHandle) {
+      alert('Inserisci il nome della collezione');
+      return;
+    }
+    fetchProducts();
+  });
+
+  collectionInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { fetchBtn.click(); }
+  });
+
+  manualUploadBtn.addEventListener('click', function() { manualUploadInput.click(); });
+  manualUploadInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) { handleManualUpload(this.files[0]); }
+  });
+
+  manualRemoveBtn.addEventListener('click', function() {
+    state.bgImage = null;
+    state.bgImageDataUrl = null;
+    state.activeMetafieldIndex = -1;
+    manualUploadInput.value = '';
+    metafieldSelector.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+    state.isDirty = true;
+    render();
+  });
+
+  bgUploadBtn.addEventListener('click', function() { bgUploadInput.click(); });
+  bgUploadInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        state.bgImageDataUrl = e.target.result;
+        var img = new Image();
+        img.onload = function() {
+          state.bgImage = img;
+          state.isDirty = true;
+          render();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+
+  bgRemoveBtn.addEventListener('click', function() {
+    state.bgImage = null;
+    state.bgImageDataUrl = null;
+    state.activeMetafieldIndex = -1;
+    bgUploadInput.value = '';
+    state.isDirty = true;
+    // Deseleziona thumbnail metafield se visibili
+    metafieldSelector.querySelectorAll('.thumb').forEach(function(t) {
+      t.classList.remove('active');
+    });
+    render();
+  });
+
+  bgScaleSlider.addEventListener('input', function() {
+    state.bgScale = parseInt(this.value, 10);
+    bgScaleValue.textContent = this.value + '%';
+    state.isDirty = true;
+    render();
+  });
+
+  metafieldRemoveBtn.addEventListener('click', function() {
+    state.bgImage = null;
+    state.bgImageDataUrl = null;
+    state.activeMetafieldIndex = -1;
+    state.isDirty = true;
+    metafieldSelector.querySelectorAll('.thumb').forEach(function(t) {
+      t.classList.remove('active');
+    });
+    render();
+  });
+
+  imgRemoveBtn.addEventListener('click', function() {
+    state.imageUrl = null;
+    state.activeImageIndex = 0;
+    manualUploadInput.value = '';
+    // Deseleziona thumbnail
+    imgSelector.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+    // Deseleziona prodotto dalla lista
+    var items = productList.querySelectorAll('.product-list-item');
+    items.forEach(function(item) { item.classList.remove('active'); });
+    state.isDirty = true;
+    render();
+  });
+
+  text1Input.addEventListener('input', function() {
+    state.text1 = this.value;
+    state.isDirty = true;
+    render();
+  });
+
+  text2Input.addEventListener('input', function() {
+    state.text2 = this.value;
+    state.isDirty = true;
+    render();
+  });
+
+  alignToggle.addEventListener('click', function(e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    alignToggle.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    state.align = btn.getAttribute('data-align');
+    state.isDirty = true;
+    render();
+  });
+
+  downloadBtn.addEventListener('click', downloadPNG);
+  resetBtn.addEventListener('click', resetProduct);
+  resetAllBtn.addEventListener('click', resetAll);
+
+  logoToggleBtn.addEventListener('click', function() {
+    state.logoEnabled = !state.logoEnabled;
+    this.textContent = state.logoEnabled ? 'Logo ON' : 'Logo OFF';
+    this.classList.toggle('active', state.logoEnabled);
+    state.isDirty = true;
+    render();
+  });
+
+  // ===== INIT =====
+  // Fetch SVG logo, carica font, poi renderizza
+  fetch(LOGO_SVG_URL)
+    .then(function(res) { return res.text(); })
+    .then(function(svgText) {
+      state.logoSvgText = svgText;
+      // Ricostruisci logo image con colore di default
+      var colored = colorizeSvg(svgText, state.logoColor);
+      var blob = new Blob([colored], { type: 'image/svg+xml;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var img = new Image();
+      img.onload = function() {
+        state.logoImage = img;
+        if (state._logoCallback) { state._logoCallback(img); delete state._logoCallback; }
+      };
+      img.src = url;
+    })
+    .catch(function() {
+      // SVG non caricato, continua senza logo
+    });
+
+  var boldLoad = document.fonts.load('700 112px ABCFavorit');
+  var bookLoad = document.fonts.load('500 85px ABCFavorit');
+
+  Promise.all([boldLoad, bookLoad]).then(function() {
+    setTimeout(function() { render(); }, 100);
+  }).catch(function() {
+    setTimeout(function() { render(); }, 1500);
+  });
+
+  setTimeout(function() { if (state.isDirty) render(); }, 3000);
+  fetchProducts();
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Card Prodotto",
+  "tag": "section",
+  "class": "card-prodotto-section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Card Prodotto"
+    }
+  ]
+}
+{% endschema %}

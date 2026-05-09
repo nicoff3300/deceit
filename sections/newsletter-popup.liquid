@@ -1,0 +1,321 @@
+<!-- /sections/newsletter-popup.liquid -->
+<!-- Popup newsletter per homepage — gestibile dal theme customizer -->
+{%- unless section.settings.enabled -%}{%- comment -%}disabilitato{%- endcomment -%}
+{%- else -%}
+{%- assign bg = section.settings.bg_color | default: '#F5CDBE' -%}
+{%- assign tx = section.settings.text_color | default: '#0A0A0A' -%}
+{%- assign oa = section.settings.overlay_opacity | default: 70 | divided_by: 100.0 -%}
+{%- assign oc = section.settings.overlay_color | default: '#000000' | color_modify: 'alpha', oa -%}
+{%- assign offer = section.settings.offer_text | default: '10% OFF' -%}
+{%- assign hd = section.settings.heading | default: 'Iscriviti per ricevere <strong>aggiornamenti su collezioni, eventi e novità esclusive</strong>.' -%}
+{%- assign bd = section.settings.body_text | default: '' -%}
+{%- assign btn = section.settings.button_label | default: 'ISCRIVITI' -%}
+{%- assign logo = section.settings.show_logo | default: true -%}
+{%- assign freq = section.settings.popup_frequency | default: 'weekly' -%}
+{%- assign pdelay = section.settings.popup_delay | default: 5 -%}
+{%- assign ed = section.settings.exit_intent | default: true -%}
+<script>
+(function(){
+  var C = {
+    bg: {{ bg | json }},
+    tx: {{ tx | json }},
+    oc: {{ oc | json }},
+    of: {{ offer | json }},
+    hd: {{ hd | json }},
+    bd: {{ bd | json }},
+    bn: {{ btn | json }},
+    lg: {{ logo | json }},
+    dl: {{ pdelay | json }},
+    ei: {{ ed | json }},
+    fq: {{ freq | json }}
+  };
+  var COOKIE_NAME = 'nl_popup_closed';
+
+  // FREQUENZA → giorni blocco
+  var CLOSE_DAYS = 0; // 0 = nessun blocco (mostra sempre)
+  if(C.fq==='daily') CLOSE_DAYS = 1;
+  else if(C.fq==='weekly') CLOSE_DAYS = 7;
+  else if(C.fq==='monthly') CLOSE_DAYS = 30;
+  // 'always' → 0, nessun blocco
+
+  // localStorage check (più affidabile dei cookie su Shopify)
+  function isClosed() {
+    if(CLOSE_DAYS===0) return false;
+    var t = localStorage.getItem(COOKIE_NAME);
+    if(!t) return false;
+    return Date.now() < parseInt(t, 10);
+  }
+  function setClosed() {
+    if(CLOSE_DAYS>0) {
+      localStorage.setItem(COOKIE_NAME, Date.now() + CLOSE_DAYS*86400000);
+    }
+  }
+
+  if(isClosed()) return;
+
+  // COSTRUISCI OVERLAY
+  var el = document.createElement('div');
+  el.innerHTML = '<style>'+
+    '#nl-po{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:'+C.oc+';z-index:2147483647;align-items:center;justify-content:center}'+
+    '#nl-po.on{display:flex}'+
+    '#nl-po-in{position:relative;background:'+C.bg+';color:'+C.tx+';width:min(90vw,480px);max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;align-items:center;text-align:center;font-family:Helvetica,Arial,sans-serif;padding:3rem 1.5rem 2rem}'+
+    '#nl-po-x{position:absolute;top:.5rem;right:.5rem;background:none;border:none;color:'+C.tx+';font-size:2rem;cursor:pointer;line-height:1;padding:.75rem;min-width:48px;min-height:48px;opacity:.5;z-index:1}'+
+    '#nl-po-x:hover{opacity:1}'+
+    '.nl-po-l{width:200px;height:auto;filter:brightness(0);display:block}'+
+    '.nl-po-o{font-size:3.5rem;font-weight:700;line-height:1.1;color:'+C.tx+';margin:0}'+
+    '.nl-po-h{font-size:2.188rem;font-weight:400;line-height:1.2;color:'+C.tx+';margin:1.5rem 0 0}'+
+    '.nl-po-h strong{font-weight:700}'+
+    '.nl-po-b{font-size:2rem;line-height:1.6;color:'+C.tx+';opacity:.8;margin:1.5rem 0 0}'+
+    '.nl-po-f{width:100%;display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem}'+
+    '.nl-po-g{width:100%;display:flex;flex-direction:column;gap:.5rem;position:relative;text-align:left}'+
+    '.nl-po-g label{font-size:1.125rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:'+C.tx+';opacity:1}'+
+    '.nl-po-g input{width:100%;padding:.875rem 1rem;background:#fff;color:'+C.tx+';border:none;outline:none;font-family:Helvetica,Arial,sans-serif;font-size:1rem;font-weight:500}'+
+    '.nl-po-g+.nl-po-g{padding-top:.5rem}'+
+    '.nl-po-g input::placeholder{color:#aaa}'+
+    '.nl-po-e{font-size:.6875rem;color:#9B2724;margin-top:.25rem;display:none;font-weight:500}'+
+    '.nl-po-g.err input{border:2px solid #9B2724!important}'+
+    '.nl-po-g.err .nl-po-e{display:block}'+
+    '.nl-po-c{display:flex;align-items:flex-start;gap:.75rem;cursor:pointer;width:100%;text-align:left}'+
+    '.nl-po-c input{appearance:none;-webkit-appearance:none;width:1.25rem;height:1.25rem;min-width:1.25rem;border:2px solid '+C.tx+';background:#fff;cursor:pointer;position:relative;margin-top:.1rem}'+
+    '.nl-po-c input:checked{background:'+C.tx+';border-color:'+C.tx+'}'+
+    '.nl-po-c input:checked::after{content:"✓";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.875rem;font-weight:700;color:'+C.bg+';line-height:1}'+
+    '.nl-po-ct{font-size:.9rem;line-height:1.5;color:'+C.tx+';opacity:.7}'+
+    '.nl-po-ct a{color:'+C.tx+';text-decoration:underline}'+
+    '.nl-po-s{width:100%;padding:1rem;background:'+C.tx+';color:'+C.bg+';border:none;font-family:Helvetica,Arial,sans-serif;font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;cursor:pointer}'+
+    '.nl-po-s:hover{background:#00f;color:#fff}'+
+    '.nl-po-w{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.875rem 1.5rem;background:'+C.tx+';color:'+C.bg+';text-decoration:none;font-family:Helvetica,Arial,sans-serif;font-weight:700;font-size:.875rem;text-transform:uppercase;letter-spacing:.08em;width:100%}'+
+    '.nl-po-w:hover{background:#00f;color:#fff}'+
+    '.nl-po-w svg{flex-shrink:0}'+
+    '.nl-po-cf{display:none;flex-direction:column;align-items:center;gap:1.5rem;width:100%}'+
+    '.nl-po-cf.on{display:flex}'+
+    '.nl-po-ctt{font-size:2.188rem;font-weight:400;color:'+C.tx+';line-height:1.2}'+
+    '.nl-po-ctb{font-size:2rem;line-height:1.6;opacity:.8;margin:0}'+
+    '.nl-po-sc{display:flex;flex-direction:column;align-items:center;width:100%}'+
+    '.nl-po-sc.hide{display:none}'+
+    '.nl-po-spin{display:none;width:1.25rem;height:1.25rem;border:2px solid '+C.bg+';border-top-color:transparent;border-radius:50%;animation:nl-sp .6s linear infinite;margin:0 auto}'+
+    '.nl-po-s.load .nl-po-spin{display:inline-block}'+
+    '.nl-po-s.load .nl-po-st{display:none}'+
+    '@keyframes nl-sp{to{transform:rotate(360deg)}}'+
+    '@keyframes nl-fd{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}'+
+    '.nl-po-cf.on{animation:nl-fd .5s ease}'+
+  '</style>'+
+  '<div id="nl-po"><div id="nl-po-in">'+
+    '<button id="nl-po-x" aria-label="Chiudi">&times;</button>'+
+    '<div class="nl-po-sc" id="nl-fm">'+
+      (C.lg?'<img src="https://cdn.shopify.com/s/files/1/0729/7876/0007/files/Logo_deceit_store.svg?v=1768909615" alt="DECEIT" class="nl-po-l">':'')+
+      '<p class="nl-po-o">'+C.of+'</p>'+
+      '<p class="nl-po-h">'+C.hd+'</p>'+
+      (C.bd?'<div class="nl-po-b">'+C.bd+'</div>':'')+
+      '<form id="nl-fm-el" class="nl-po-f">'+
+        '<div class="nl-po-g" id="nf-e"><label for="ni-e">Email *</label><input type="email" id="ni-e" placeholder="La tua email" autocomplete="email" required><span class="nl-po-e">Inserisci un\'email valida</span></div>'+
+        '<label class="nl-po-c" id="nf-c"><input type="checkbox" id="ni-c" required><span class="nl-po-ct">Autorizzo DECEIT al trattamento dei miei dati personali per finalita di marketing e promozione, secondo il D.Lgs. 196/2003 e il Regolamento UE 2016/679 (GDPR). <a href="https://deceitdeceit.com/policies/privacy-policy" target="_blank" rel="noopener">Informativa completa</a></span></label>'+
+        '<span class="nl-po-e" id="nf-ce" style="margin-left:2rem">Devi accettare il trattamento dei dati</span>'+
+        '<button type="submit" class="nl-po-s" id="nl-sb"><span class="nl-po-st">'+C.bn+'</span><div class="nl-po-spin"></div></button>'+
+      '</form>'+
+    '</div>'+
+    '<div class="nl-po-cf" id="nl-cf">'+
+      '<div class="nl-po-ctt" id="nl-cf-ctt">Grazie per esserti iscritto.</div>'+
+      '<div class="nl-po-ctb" id="nl-cf-m">Riceverai il codice sconto alla mail.</div>'+
+    '</div>'+
+  '</div></div>';
+
+  document.body.appendChild(el.firstElementChild);
+  var ov = document.body.appendChild(el.lastElementChild);
+
+  var fS = document.getElementById('nl-fm');
+  var cS = document.getElementById('nl-cf');
+  var xB = document.getElementById('nl-po-x');
+  var fm = document.getElementById('nl-fm-el');
+
+  function sh(){ov.classList.add('on')}
+  function hi(){
+    ov.classList.remove('on');
+    setClosed();
+  }
+
+  var ef=false;
+  function oE(e){if(e.clientY<=0&&!ef){ef=true;sh()}}
+  if(C.ei) document.addEventListener('mouseleave',oE);
+
+  if(C.dl>0) setTimeout(function(){if(!ef)sh()},C.dl*1000);
+
+  if(xB) xB.addEventListener('click',hi);
+  ov.addEventListener('click',function(e){if(e.target===ov)hi()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')hi()});
+
+  // VALIDAZIONE
+  function vE(e){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)}
+  function cE(){document.querySelectorAll('#nl-po .err').forEach(function(e){e.classList.remove('err')});document.getElementById('nf-ce').style.display='none'}
+  function sE(i){document.getElementById(i).classList.add('err')}
+
+  function vld(){
+    cE();var v=true;
+    var em=document.getElementById('ni-e').value.trim();
+    if(!em||!vE(em)){sE('nf-e');v=false}
+    if(!document.getElementById('ni-c').checked){document.getElementById('nf-ce').style.display='block';v=false}
+    return v;
+  }
+
+  // SUBMIT A SHOPIFY
+  function sS(e){
+    var f = document.createElement('form');
+    f.method = 'POST';
+    f.action = '/contact';
+    f.style.display = 'none';
+    function a(n,v){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;f.appendChild(i)}
+    a('form_type','customer');
+    a('utf8','\u2713');
+    // Prendi il token CSRF dalla pagina (content_for_header lo mette in un meta)
+    var m=document.querySelector('meta[name="csrf-token"]');
+    if(m)a('authenticity_token',m.content);
+    a('contact[email]',e);
+    a('contact[tags]','newsletter,discount_10_send');
+    document.body.appendChild(f);
+    f.submit();
+  }
+
+  if(fm) fm.addEventListener('submit',function(e){
+    e.preventDefault();if(!vld())return;
+    var sb=document.getElementById('nl-sb');if(sb)sb.classList.add('load');
+    var em=document.getElementById('ni-e').value.trim();
+    // Mostra conferma SUBITO (prima che il submit ricarichi la pagina)
+    fS.classList.add('hide');cS.classList.add('on');if(sb)sb.classList.remove('load');
+    document.getElementById('nl-cf-m').textContent='Riceverai il codice sconto alla mail '+em+'.';
+    // Invia a Shopify dopo 1s
+    setTimeout(function(){sS(em)},1000);
+  },true);
+
+  document.querySelectorAll('#nl-po .nl-po-g input').forEach(function(i){
+    i.addEventListener('input',function(){this.closest('.nl-po-g').classList.remove('err')});
+  });
+  document.getElementById('ni-c').addEventListener('change',function(){document.getElementById('nf-ce').style.display='none'});
+
+  // POPUP SUBITO ALLA PRIMA MOSTRA (per debug: mostra sempre)
+  // Sostituisci con sh() qui sotto se vuoi mostrare subito
+  // sh(); // ← decommenta per mostrare immediatamente (debug)
+})();
+</script>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "Newsletter Popup",
+  "tag": "section",
+  "class": "newsletter-popup-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "default": true,
+      "label": "Abilita popup"
+    },
+    {
+      "type": "header",
+      "content": "Attivazione"
+    },
+    {
+      "type": "select",
+      "id": "popup_frequency",
+      "options": [
+        { "value": "always", "label": "Ogni caricamento pagina" },
+        { "value": "daily", "label": "Una volta al giorno" },
+        { "value": "weekly", "label": "Una volta a settimana" },
+        { "value": "monthly", "label": "Una volta al mese" }
+      ],
+      "default": "weekly",
+      "label": "Frequenza popup",
+      "info": "Dopo aver chiuso il popup, dopo quanto riappare?"
+    },
+    {
+      "type": "range",
+      "id": "popup_delay",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "default": 5,
+      "label": "Ritardo comparsa",
+      "info": "Secondi di attesa prima che il popup appaia. 0 = solo su exit intent."
+    },
+    {
+      "type": "checkbox",
+      "id": "exit_intent",
+      "default": true,
+      "label": "Exit intent",
+      "info": "Mostra il popup quando il mouse esce dalla finestra"
+    },
+    {
+      "type": "header",
+      "content": "Contenuto"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logo",
+      "default": true,
+      "label": "Mostra logo"
+    },
+    {
+      "type": "text",
+      "id": "offer_text",
+      "default": "10% OFF",
+      "label": "Testo offerta",
+      "info": "Testo in grande sopra il titolo (es. \"10% OFF\", \"SCONTO\", \"OMAGGIO\")"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Iscriviti per ricevere <strong>aggiornamenti su collezioni, eventi e novità esclusive</strong>.",
+      "label": "Titolo"
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "default": "<p>Lasciaci la tua email per restare aggiornato.</p>",
+      "label": "Testo descrittivo"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "ISCRIVITI",
+      "label": "Testo del pulsante"
+    },
+    {
+      "type": "header",
+      "content": "Aspetto"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "default": "#F5CDBE",
+      "label": "Sfondo popup"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "default": "#0A0A0A",
+      "label": "Colore testo"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "default": "#000000",
+      "label": "Colore overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70,
+      "label": "Opacità overlay"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Popup"
+    }
+  ]
+}
+{% endschema %}
