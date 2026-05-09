@@ -60,30 +60,37 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ===== LAYOUT — MOBILE FIRST (IG-style) ===== */
+  /* ===== LAYOUT — MOBILE FIRST ===== */
   .card-prodotto-app .app {
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    align-items: center;
+    align-items: stretch;
   }
 
   @media (min-width: 961px) {
     .card-prodotto-app .app {
       flex-direction: row;
       align-items: flex-start;
-      gap: 2rem;
+      gap: 1.5rem;
+      max-width: 1040px;
     }
     .card-prodotto-app .preview {
-      flex: 1;
+      flex: 4 4 0;
+      min-width: 0;
       position: sticky;
       top: 1.5rem;
     }
-    .card-prodotto-app .panel {
-      width: 380px;
-      flex-shrink: 0;
+    .card-prodotto-app .panel--content {
+      flex: 3 3 0;
+      min-width: 0;
+      position: static;
+    }
+    .card-prodotto-app .panel--layout {
+      flex: 3 3 0;
+      min-width: 0;
       position: static;
     }
   }
@@ -94,13 +101,21 @@
     border-radius: var(--radius);
     border: 1px solid var(--border);
     padding: 1.5rem;
-    position: sticky;
-    top: 1.5rem;
+    position: static;
   }
 
   @media (max-width: 960px) {
     .card-prodotto-app .panel {
       position: static;
+      width: 100%;
+      max-width: 100%;
+    }
+    .card-prodotto-app .preview {
+      width: 100%;
+      max-width: 100%;
+    }
+    .card-prodotto-app .preview__canvas-wrap {
+      max-width: 100%;
     }
   }
 
@@ -162,8 +177,8 @@
 
   .card-prodotto-app .color-swatch {
     width: 100%;
-    min-height: 48px;
-    aspect-ratio: 1;
+    min-height: auto;
+    aspect-ratio: 5 / 2;
     border-radius: var(--radius);
     border: 2px solid transparent;
     cursor: pointer;
@@ -213,8 +228,8 @@
 
   .card-prodotto-app .text-color-swatch {
     width: 100%;
-    min-height: 48px;
-    aspect-ratio: 1;
+    min-height: auto;
+    aspect-ratio: 5 / 2;
     border-radius: var(--radius);
     border: 2px solid transparent;
     cursor: pointer;
@@ -400,6 +415,15 @@
     margin-top: 0.25rem;
   }
 
+  .card-prodotto-app .app-footer {
+    text-align: center;
+    font-size: 0.7rem;
+    opacity: 0.25;
+    padding: 1rem 0 0.5rem;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
   /* ===== CANVAS PREVIEW ===== */
   .card-prodotto-app .preview {
     background: #fff;
@@ -543,6 +567,52 @@
     opacity: 0.3;
     cursor: not-allowed;
   }
+
+  /* ===== THUMBNAIL SELECTOR ===== */
+  .card-prodotto-app .thumb-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .card-prodotto-app .thumb-selector .thumb {
+    width: 72px;
+    height: 72px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+  }
+
+  .card-prodotto-app .thumb-selector .thumb:hover {
+    transform: scale(1.05);
+  }
+
+  .card-prodotto-app .thumb-selector .thumb.active {
+    border-color: var(--text);
+    transform: scale(1.05);
+  }
+
+  .card-prodotto-app .thumb-selector .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-prodotto-app .thumb-selector .thumb.active::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
 </style>
 
 <div class="card-prodotto-app" id="cardProdottoApp">
@@ -563,9 +633,66 @@
       </div>
     </div>
 
-    <!-- ===== PANEL CONTROLLI ===== -->
-    <div class="panel">
-      <div class="panel__title">Modifica Card</div>
+    <!-- ===== PANEL 2: CONTENUTO (Collezione → Carica manuale) ===== -->
+    <div class="panel panel--content">
+      <div class="panel__title">Contenuto</div>
+
+      <!-- COLLEZIONE -->
+      <div class="field-group">
+        <label>Nome collezione Shopify</label>
+        <div style="display:flex; gap:0.375rem;">
+          <input type="text" id="cpCollectionInput" placeholder="es. ss26" style="flex:1;" value="ss26">
+          <button class="btn btn--small btn--secondary" id="cpFetchBtn" style="width:auto; flex-shrink:0;">Carica</button>
+        </div>
+      </div>
+
+      <!-- LISTA PRODOTTI -->
+      <div class="field-group" id="cpProductListGroup" style="display:none;">
+        <label>Seleziona prodotto</label>
+        <div class="product-list" id="cpProductList"></div>
+        <div class="product-list-status" id="cpProductStatus"></div>
+      </div>
+
+      <!-- SELEZIONE IMMAGINE -->
+      <div class="field-group" id="cpImageSelectorGroup" style="display:none;">
+        <label>Immagine prodotto</label>
+        <div class="thumb-selector" id="cpImgSelector"></div>
+        <button class="btn btn--small btn--secondary" id="cpImgRemoveBtn" style="margin-top:0.5rem;">Rimuovi immagine prodotto</button>
+      </div>
+
+      <!-- METAFIELD SFONDO -->
+      <div class="field-group" id="cpMetafieldGroup" style="display:none;">
+        <label>Sfondo da metafield (foto indossate)</label>
+        <div class="thumb-selector" id="cpMetafieldSelector"></div>
+        <button class="btn btn--small btn--secondary" id="cpMetafieldRemoveBtn" style="margin-top:0.5rem;">Rimuovi sfondo metafield</button>
+      </div>
+
+      <!-- ZOOM SFONDO -->
+      <div class="field-group">
+        <label>Zoom sfondo</label>
+        <div class="range-wrap">
+          <input type="range" id="cpBgScaleSlider" min="50" max="200" value="100" step="5">
+          <span class="range-value" id="cpBgScaleValue">100%</span>
+        </div>
+      </div>
+
+      <!-- CARICA MANUALE -->
+      <div class="field-group">
+        <label>Carica immagine manuale</label>
+        <div style="display:flex; gap:0.375rem;">
+          <div class="file-upload" style="flex:1;">
+            <button class="btn btn--small btn--secondary" id="cpManualUploadBtn" style="width:100%;">Scegli file...</button>
+            <input type="file" id="cpManualUploadInput" accept="image/*">
+          </div>
+          <button class="btn btn--small btn--secondary" id="cpManualRemoveBtn" style="width:auto; flex-shrink:0;">✕</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== PANEL 3: LAYOUT (Formato → Allineamento) ===== -->
+    <div class="panel panel--layout">
+      <div class="panel__title">Layout</div>
 
       <!-- FORMATO -->
       <div class="field-group">
@@ -626,7 +753,7 @@
           <div class="text-color-swatch" data-color="#A83329"></div>
           <div class="text-color-swatch active" data-color="#F5E828"></div>
         </div>
-        <p style="font-size:0.625rem; opacity:0.5; margin-top:0.25rem;">Non può essere uguale al colore sfondo</p>
+        <p style="font-size:0.8rem; opacity:0.5; margin-top:0.25rem;">Non può essere uguale al colore sfondo</p>
       </div>
 
       <!-- COLORE LOGO SVG -->
@@ -638,60 +765,13 @@
           <div class="text-color-swatch" data-color="#A83329"></div>
           <div class="text-color-swatch active" data-color="#F5E828"></div>
         </div>
-        <p style="font-size:0.625rem; opacity:0.5; margin-top:0.25rem;">Non può essere uguale al colore sfondo</p>
+        <p style="font-size:0.8rem; opacity:0.5; margin-top:0.25rem;">Non può essere uguale al colore sfondo</p>
       </div>
 
       <!-- TOGGLE LOGO -->
       <div class="field-group">
         <label>Mostra logo DECĒIT</label>
         <button class="btn btn--small btn--secondary active" id="cpLogoToggleBtn" style="width:100%;">Logo ON</button>
-      </div>
-
-      <!-- COLLEZIONE -->
-      <div class="field-group">
-        <label>Nome collezione Shopify</label>
-        <div style="display:flex; gap:0.375rem;">
-          <input type="text" id="cpCollectionInput" placeholder="es. ss26" style="flex:1;" value="ss26">
-          <button class="btn btn--small btn--secondary" id="cpFetchBtn" style="width:auto; flex-shrink:0;">Carica</button>
-        </div>
-      </div>
-
-      <!-- LISTA PRODOTTI -->
-      <div class="field-group" id="cpProductListGroup" style="display:none;">
-        <label>Seleziona prodotto</label>
-        <div class="product-list" id="cpProductList"></div>
-        <div class="product-list-status" id="cpProductStatus"></div>
-      </div>
-
-      <!-- SELEZIONE IMMAGINE -->
-      <div class="field-group" id="cpImageSelectorGroup" style="display:none;">
-        <label>Immagine prodotto</label>
-        <div class="img-selector" id="cpImgSelector">
-          <button class="active" data-img="1">1ª foto</button>
-          <button data-img="2">2ª foto</button>
-        </div>
-      </div>
-
-      <!-- METAFIELD SFONDO -->
-      <div class="field-group" id="cpMetafieldGroup" style="display:none;">
-        <label>Sfondo da metafield (foto indossate)</label>
-        <div class="img-selector" id="cpMetafieldSelector"></div>
-      </div>
-
-      <!-- CARICA MANUALE -->
-      <div class="field-group">
-        <label>Carica immagine manuale</label>
-        <div style="display:flex; gap:0.375rem;">
-          <div class="file-upload" style="flex:1;">
-            <button class="btn btn--small btn--secondary" id="cpManualUploadBtn" style="width:100%;">Scegli file...</button>
-            <input type="file" id="cpManualUploadInput" accept="image/*">
-          </div>
-          <button class="btn btn--small btn--secondary" id="cpManualRemoveBtn" style="width:auto; flex-shrink:0;">✕</button>
-        </div>
-        <div class="range-wrap" style="margin-top:0.5rem;">
-          <input type="range" id="cpManualScaleSlider" min="50" max="300" value="100" step="5">
-          <span class="range-value" id="cpManualScaleValue">100%</span>
-        </div>
       </div>
 
       <!-- TESTO 1 -->
@@ -715,9 +795,10 @@
         </div>
       </div>
 
-    </div>
-
   </div>
+
+  <div class="app-footer">Decēit social card v.01</div>
+</div>
 </div>
 
 <script>
@@ -743,10 +824,9 @@
     selectedProduct: null,
     activeImageIndex: 0,
     imageUrl: null,
-    manualImageDataUrl: null,
-    manualScale: 100,
     bgImage: null,
     bgImageDataUrl: null,
+    bgScale: 100,
     metafieldImages: [],
     activeMetafieldIndex: -1,
     isDirty: true
@@ -767,11 +847,10 @@
   var productListGroup = document.getElementById('cpProductListGroup');
   var imageSelectorGroup = document.getElementById('cpImageSelectorGroup');
   var imgSelector = document.getElementById('cpImgSelector');
+  var imgRemoveBtn = document.getElementById('cpImgRemoveBtn');
   var manualUploadBtn = document.getElementById('cpManualUploadBtn');
   var manualUploadInput = document.getElementById('cpManualUploadInput');
   var manualRemoveBtn = document.getElementById('cpManualRemoveBtn');
-  var manualScaleSlider = document.getElementById('cpManualScaleSlider');
-  var manualScaleValue = document.getElementById('cpManualScaleValue');
   var bgUploadBtn = document.getElementById('cpBgUploadBtn');
   var bgUploadInput = document.getElementById('cpBgUploadInput');
   var bgRemoveBtn = document.getElementById('cpBgRemoveBtn');
@@ -791,6 +870,9 @@
   var logoToggleBtn = document.getElementById('cpLogoToggleBtn');
   var metafieldGroup = document.getElementById('cpMetafieldGroup');
   var metafieldSelector = document.getElementById('cpMetafieldSelector');
+  var metafieldRemoveBtn = document.getElementById('cpMetafieldRemoveBtn');
+  var bgScaleSlider = document.getElementById('cpBgScaleSlider');
+  var bgScaleValue = document.getElementById('cpBgScaleValue');
 
   // Imposta valori iniziali degli input
   text1Input.value = state.text1;
@@ -917,8 +999,9 @@
     ctx.fillStyle = state.bgColor;
     ctx.fillRect(0, 0, W, H);
 
-    // Sfondo immagine (cover) se caricata
+    // Sfondo immagine (cover) se caricata — con zoom
     if (state.bgImage) {
+      var scaleFactor = state.bgScale / 100;
       var bgAspect = state.bgImage.naturalWidth / state.bgImage.naturalHeight;
       var bgW, bgH, bgX, bgY;
       if (bgAspect > W / H) {
@@ -932,13 +1015,20 @@
         bgX = 0;
         bgY = (H - bgH) / 2;
       }
+      // Applica zoom dal centro
+      var cx = bgX + bgW / 2;
+      var cy = bgY + bgH / 2;
+      bgW *= scaleFactor;
+      bgH *= scaleFactor;
+      bgX = cx - bgW / 2;
+      bgY = cy - bgH / 2;
       ctx.drawImage(state.bgImage, bgX, bgY, bgW, bgH);
     }
 
-    // 1) Immagine — parte da Y=0, slider taglia dal basso
+    // 1) Immagine prodotto
     // 2) Logo SVG — sovrapposto sopra, ancorato al top border
     // 3) Testo — in basso
-    var imgSrc = state.manualImageDataUrl || state.imageUrl;
+    var imgSrc = state.imageUrl;
     if (imgSrc) {
       var img = new Image();
       img.onload = function() {
@@ -950,12 +1040,8 @@
         drawLogoOnCanvas(W, H);
         drawTextOverlay(W, H, false);
       };
-      if (state.manualImageDataUrl) {
-        img.src = imgSrc;
-      } else {
-        img.crossOrigin = 'anonymous';
-        img.src = imgSrc;
-      }
+      img.crossOrigin = 'anonymous';
+      img.src = imgSrc;
     } else {
       drawLogoOnCanvas(W, H);
       drawTextOverlay(W, H, false);
@@ -966,12 +1052,10 @@
     var topPad = getImageTopPadding();
     var is1350 = isFormat1350();
 
-    // Scale per upload manuale (zoom in/out)
-    var scale = state.manualImageDataUrl ? (state.manualScale / 100) : 1;
     var imgAspect = img.naturalWidth / img.naturalHeight;
-    var drawW = W * scale;
+    var drawW = W;
     var drawH = drawW / imgAspect;
-    var drawX = (W - drawW) / 2;
+    var drawX = 0;
     var drawY = topPad - (is1350 ? 70 : 0) - (drawH - W / imgAspect) / 2;
 
     ctx.save();
@@ -1166,19 +1250,28 @@
     var imgCount = (product.images && product.images.length) || 0;
     imageSelectorGroup.style.display = 'block';
 
-    var btn1 = imgSelector.querySelector('[data-img="1"]');
-    var btn2 = imgSelector.querySelector('[data-img="2"]');
-
-    btn1.disabled = false;
-    btn2.disabled = (imgCount < 2);
-
-    if (imgCount < 2 && state.activeImageIndex === 1) {
-      state.activeImageIndex = 0;
+    // Popola thumbnail selettore immagine prodotto
+    imgSelector.innerHTML = '';
+    for (var ii = 0; ii < Math.min(imgCount, 4); ii++) {
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb' + (ii === 0 ? ' active' : '');
+      thumb.dataset.imgIndex = ii;
+      var thumbImg = document.createElement('img');
+      thumbImg.src = product.images[ii].src;
+      thumbImg.alt = (ii + 1) + 'ª foto';
+      thumbImg.loading = 'lazy';
+      thumb.appendChild(thumbImg);
+      thumb.addEventListener('click', (function(idx) {
+        return function() {
+          imgSelector.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+          this.classList.add('active');
+          loadProductImage(product, idx);
+        };
+      })(ii));
+      imgSelector.appendChild(thumb);
     }
-    state.activeImageIndex = 0;
-    btn1.classList.add('active');
-    btn2.classList.remove('active');
 
+    state.activeImageIndex = 0;
     loadProductImage(product, 0);
 
     // Spegni logo quando selezioni un prodotto
@@ -1193,14 +1286,12 @@
   function loadProductImage(product, index) {
     if (!product.images || product.images.length <= index) {
       state.imageUrl = null;
-      state.manualImageDataUrl = null;
       render();
       return;
     }
 
     state.activeImageIndex = index;
     state.imageUrl = product.images[index].src;
-    state.manualImageDataUrl = null;
 
     var img = new Image();
     img.crossOrigin = 'anonymous';
@@ -1230,33 +1321,26 @@
           metafieldGroup.style.display = 'none';
           return;
         }
-        try {
-          var data = JSON.parse(text);
-          if (!data || !Array.isArray(data) || data.length === 0) {
+          // Shopify wrappa il contenuto in <div class="shopify-section">...</div>
+          // Estraiamo il JSON da dentro il wrapper HTML
+          var jsonMatch = text.match(/>\s*(\[.*?\])\s*</);
+          var jsonStr = jsonMatch ? jsonMatch[1] : text;
+          try {
+            var data = JSON.parse(jsonStr);
+            if (!data || !Array.isArray(data) || data.length === 0) {
+              state.metafieldImages = [];
+              state.activeMetafieldIndex = -1;
+              metafieldGroup.style.display = 'none';
+              return;
+            }
+            state.metafieldImages = data;
+            renderMetafieldSelector();
+            metafieldGroup.style.display = 'block';
+          } catch(e) {
             state.metafieldImages = [];
             state.activeMetafieldIndex = -1;
             metafieldGroup.style.display = 'none';
-            return;
           }
-          state.metafieldImages = data;
-          renderMetafieldSelector();
-          metafieldGroup.style.display = 'block';
-        } catch(e) {
-          // Fallback: prova a parsare formato [url1,url2] senza virgolette
-          var mfMatch = text.match(/\[([^\]]+)\]/);
-          if (mfMatch && mfMatch[1]) {
-            var mfParts = mfMatch[1].split(',');
-            if (mfParts.length > 0 && mfParts[0].trim().indexOf('http') === 0) {
-              state.metafieldImages = mfParts.map(function(u) { return u.trim(); });
-              renderMetafieldSelector();
-              metafieldGroup.style.display = 'block';
-              return;
-            }
-          }
-          state.metafieldImages = [];
-          state.activeMetafieldIndex = -1;
-          metafieldGroup.style.display = 'none';
-        }
       })
       .catch(function() {
         state.metafieldImages = [];
@@ -1268,16 +1352,18 @@
   function renderMetafieldSelector() {
     metafieldSelector.innerHTML = '';
     state.metafieldImages.forEach(function(url, i) {
-      var btn = document.createElement('button');
-      btn.dataset.mfIndex = i;
-      btn.textContent = (i === 0 ? 'Sinistra' : 'Destra');
-      if (i === state.activeMetafieldIndex) {
-        btn.classList.add('active');
-      }
-      btn.addEventListener('click', function() {
+      var thumb = document.createElement('div');
+      thumb.className = 'thumb' + (i === state.activeMetafieldIndex ? ' active' : '');
+      thumb.dataset.mfIndex = i;
+      var thumbImg = document.createElement('img');
+      thumbImg.src = url;
+      thumbImg.alt = (i === 0 ? 'Sinistra' : 'Destra');
+      thumbImg.loading = 'lazy';
+      thumb.appendChild(thumbImg);
+      thumb.addEventListener('click', function() {
         selectMetafieldImage(parseInt(this.dataset.mfIndex, 10));
       });
-      metafieldSelector.appendChild(btn);
+      metafieldSelector.appendChild(thumb);
     });
   }
 
@@ -1301,27 +1387,28 @@
       // fallback silenzioso
     };
     img.src = mfUrl;
-    // Aggiorna active state nei bottoni
-    metafieldSelector.querySelectorAll('button').forEach(function(b) {
-      b.classList.remove('active');
+    // Aggiorna active state nei thumbnail
+    metafieldSelector.querySelectorAll('.thumb').forEach(function(t) {
+      t.classList.remove('active');
     });
-    var btn = metafieldSelector.querySelector('[data-mf-index="' + index + '"]');
-    if (btn) btn.classList.add('active');
+    var thumb = metafieldSelector.querySelector('[data-mf-index="' + index + '"]');
+    if (thumb) thumb.classList.add('active');
   }
 
   function handleManualUpload(file) {
     if (!file) return;
-    state.manualScale = 100;
-    manualScaleSlider.value = 100;
-    manualScaleValue.textContent = '100%';
     var reader = new FileReader();
     reader.onload = function(e) {
-      state.manualImageDataUrl = e.target.result;
-      state.imageUrl = null;
-
       var img = new Image();
-      img.onload = function() { render(); };
-      img.src = state.manualImageDataUrl;
+      img.onload = function() {
+        state.bgImage = img;
+        state.bgImageDataUrl = e.target.result;
+        state.activeMetafieldIndex = -1;
+        metafieldSelector.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+        state.isDirty = true;
+        render();
+      };
+      img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   }
@@ -1348,12 +1435,8 @@
   function resetProduct() {
     state.selectedProduct = null;
     state.imageUrl = null;
-    state.manualImageDataUrl = null;
     state.text1 = 'PRODOTTO';
     state.text2 = 'SS26';
-    state.manualScale = 100;
-    manualScaleSlider.value = 100;
-    manualScaleValue.textContent = '100%';
     state.activeImageIndex = 0;
     text1Input.value = 'PRODOTTO';
     text2Input.value = 'SS26';
@@ -1383,10 +1466,9 @@
     // Non resetta prodotti né selezione prodotto
     state.activeImageIndex = 0;
     state.imageUrl = null;
-    state.manualImageDataUrl = null;
-    state.manualScale = 100;
     state.bgImage = null;
     state.bgImageDataUrl = null;
+    state.bgScale = 100;
     state.products = [];
 
     // UI: formato
@@ -1398,8 +1480,8 @@
     var defLogoPad = state.format === '1080x1350' ? 140 : 370;
     logoPaddingSlider.value = defLogoPad;
     logoPaddingValue.textContent = defLogoPad + 'px';
-    manualScaleSlider.value = 100;
-    manualScaleValue.textContent = '100%';
+    bgScaleSlider.value = 100;
+    bgScaleValue.textContent = '100%';
 
     // UI: input/testo
     text1Input.value = 'PRODOTTO';
@@ -1542,40 +1624,17 @@
     if (e.key === 'Enter') { fetchBtn.click(); }
   });
 
-  imgSelector.addEventListener('click', function(e) {
-    var btn = e.target.closest('button');
-    if (!btn || btn.disabled) return;
-    var imgIdx = parseInt(btn.getAttribute('data-img'), 10) - 1;
-    var product = state.selectedProduct;
-    if (!product || !product.images || product.images.length <= imgIdx) return;
-    imgSelector.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
-    btn.classList.add('active');
-    loadProductImage(product, imgIdx);
-  });
-
   manualUploadBtn.addEventListener('click', function() { manualUploadInput.click(); });
   manualUploadInput.addEventListener('change', function() {
     if (this.files && this.files[0]) { handleManualUpload(this.files[0]); }
   });
 
   manualRemoveBtn.addEventListener('click', function() {
-    state.manualImageDataUrl = null;
-    state.imageUrl = null;
-    state.manualScale = 100;
-    manualScaleSlider.value = 100;
-    manualScaleValue.textContent = '100%';
+    state.bgImage = null;
+    state.bgImageDataUrl = null;
+    state.activeMetafieldIndex = -1;
     manualUploadInput.value = '';
-    // Riaccendi logo
-    state.logoEnabled = true;
-    logoToggleBtn.classList.add('active');
-    logoToggleBtn.textContent = 'Logo ON';
-    state.isDirty = true;
-    render();
-  });
-
-  manualScaleSlider.addEventListener('input', function() {
-    state.manualScale = parseInt(this.value, 10);
-    manualScaleValue.textContent = this.value + '%';
+    metafieldSelector.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
     state.isDirty = true;
     render();
   });
@@ -1604,10 +1663,41 @@
     state.activeMetafieldIndex = -1;
     bgUploadInput.value = '';
     state.isDirty = true;
-    // Deseleziona bottoni metafield se visibili
-    metafieldSelector.querySelectorAll('button').forEach(function(b) {
-      b.classList.remove('active');
+    // Deseleziona thumbnail metafield se visibili
+    metafieldSelector.querySelectorAll('.thumb').forEach(function(t) {
+      t.classList.remove('active');
     });
+    render();
+  });
+
+  bgScaleSlider.addEventListener('input', function() {
+    state.bgScale = parseInt(this.value, 10);
+    bgScaleValue.textContent = this.value + '%';
+    state.isDirty = true;
+    render();
+  });
+
+  metafieldRemoveBtn.addEventListener('click', function() {
+    state.bgImage = null;
+    state.bgImageDataUrl = null;
+    state.activeMetafieldIndex = -1;
+    state.isDirty = true;
+    metafieldSelector.querySelectorAll('.thumb').forEach(function(t) {
+      t.classList.remove('active');
+    });
+    render();
+  });
+
+  imgRemoveBtn.addEventListener('click', function() {
+    state.imageUrl = null;
+    state.activeImageIndex = 0;
+    manualUploadInput.value = '';
+    // Deseleziona thumbnail
+    imgSelector.querySelectorAll('.thumb').forEach(function(t) { t.classList.remove('active'); });
+    // Deseleziona prodotto dalla lista
+    var items = productList.querySelectorAll('.product-list-item');
+    items.forEach(function(item) { item.classList.remove('active'); });
+    state.isDirty = true;
     render();
   });
 
