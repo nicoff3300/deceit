@@ -169,7 +169,7 @@
     var m=document.querySelector('meta[name="csrf-token"]');
     if(m)a('authenticity_token',m.content);
     a('contact[email]',e);
-    a('contact[tags]','newsletter,discount_10_send');
+    a('contact[tags]','newsletter,discount_10_send,popup');
     document.body.appendChild(f);
     f.submit();
   }
