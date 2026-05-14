@@ -1458,6 +1458,7 @@
   function resetAll() {
     // Azzera tutti valori e UI allo stato iniziale
     state.format = '1080x1350';
+    formatSelect.value = '1080x1350';
     state.bgColor = '#17453C';
     state.textColor = '#F5E828';
     state.align = 'left';
@@ -1565,6 +1566,21 @@
     alignToggle.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
     state.align = btn.getAttribute('data-align');
+    state.isDirty = true;
+    render();
+  });
+
+  formatSelect.addEventListener('change', function() {
+    state.format = this.value;
+    var is1350 = state.format === '1080x1350';
+    var defaultPadding = is1350 ? 50 : 180;
+    var defaultLogoPadding = is1350 ? 140 : 370;
+    state.imagePaddingTop = defaultPadding;
+    state.logoPaddingTop = defaultLogoPadding;
+    paddingSlider.value = defaultPadding;
+    paddingValue.textContent = defaultPadding + 'px';
+    logoPaddingSlider.value = defaultLogoPadding;
+    logoPaddingValue.textContent = defaultLogoPadding + 'px';
     state.isDirty = true;
     render();
   });
