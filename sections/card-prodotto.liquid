@@ -989,6 +989,8 @@
 
   // ===== CORE RENDER (sync callback-based) =====
   function render(onDone) {
+    // Sincronizza sempre dal dropdown
+    state.format = formatSelect.value;
     var fmt = getFormat();
     var W = fmt.w;
     var H = fmt.h;
