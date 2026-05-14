@@ -1427,14 +1427,22 @@
     downloadBtn.disabled = true;
 
     render(function() {
-      var link = document.createElement('a');
-      link.download = 'card-prodotto-' + state.format + '.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      try {
+        var dataUrl = canvas.toDataURL('image/png');
+        var link = document.createElement('a');
+        link.download = 'card-prodotto-' + state.format + '.png';
+        link.href = dataUrl;
+        link.click();
 
-      downloadText.textContent = 'Scarica PNG';
-      downloadSpinner.style.display = 'none';
-      downloadBtn.disabled = false;
+        downloadText.textContent = 'Scarica PNG';
+        downloadSpinner.style.display = 'none';
+        downloadBtn.disabled = false;
+      } catch(e) {
+        downloadText.textContent = 'Errore: ' + e.message;
+        downloadSpinner.style.display = 'none';
+        downloadBtn.disabled = false;
+        console.error('toDataURL failed:', e);
+      }
     });
   }
 
